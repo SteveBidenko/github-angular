@@ -1,0 +1,36 @@
+body {
+  padding-top: 10px;
+} 
+
+.branch-group {
+  border: 1px solid #ddd;
+  border-radius: 3px
+}
+
+.view-container {
+  position:relative;
+}
+.view-container > .view.ng-animate {
+  position:absolute;
+  top:0;
+  left:0;
+  width:100%;
+  min-height:500px;
+}
+.view.ng-enter, .view.ng-leave,
+.record.ng-anchor {
+  transition:0.5s linear all;
+}
+.view.ng-enter {
+  transform:translateX(100%);
+}
+.view.ng-enter.ng-enter-active, .view.ng-leave {
+  transform:translateX(0%);
+}
+.view.ng-leave.ng-leave-active {
+  transform:translateX(-100%);
+}
+
+.repo-list {
+  list-style: none;
+}

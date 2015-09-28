@@ -1,0 +1,21 @@
+<div class="row record" ng-animate-ref="{{ profile.login }}">
+  <div class="col-md-2">
+    <img ng-src="{{ profile.details.avatar_url }}" alt="Full avatar" width="230" />
+  </div>
+  <div class="col-md-2">
+    <b ng-if="!profile.details.name">{{ profile.details.login }}</b>
+    <b ng-if="profile.details.name">{{ profile.details.name }}</b>
+    <span ng-show="profile.details.email">&lt;{{ profile.details.email }}&gt;</span>
+    <span ng-show="profile.details.location"> at {{ profile.details.location }}</span>
+  </div>
+  <div class="col-md-8">
+    <ul class="repo-list" ng-show="profile.isShow">
+      <li ng-repeat="repo in profile.repos" ng-animate-ref="{{ repo.name }}">
+        <a ng-href="#/repo/{{ profile.login }}/{{ repo.name }}">{{ repo.name }}</a>
+      </li>
+      <li ng-if="profile.repos.length == 0">
+        <strong>No results found...</strong>
+      </li>
+    </ul>
+  </div>
+</div>
