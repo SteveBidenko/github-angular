@@ -1,40 +1,40 @@
 (function () {
   'use strict';
 
-  // var app = angular.module('guide', ['following']);
   var app = angular.module('guide', [
     'profile', 'repository', 'ngAnimate', 'ngRoute'
   ]).config([
-    '$routeProvider', 
+    '$routeProvider',
     function($routeProvider) {
       $routeProvider.when('/', {
         templateUrl: 'home.html',
         controller: 'GithubController as github'
-      });
-      $routeProvider.when('/profile/:id', {
+      }).when('/profile/:id', {
         templateUrl: 'profile.html',
         controller: 'ProfileController as profile'
-      });
-      $routeProvider.when('/repo/:owner/:id', {
+      }).when('/repo/:owner/:id', {
         templateUrl: 'repository.html',
         controller: 'RepositoryController as repo'
+      }).otherwise({
+        redirectTo: '/'
       });
     }
   ]).run(['$rootScope', function($rootScope) {
     $rootScope.githubUrl = 'https://api.github.com/';
-    $rootScope.github = {};
-    $rootScope.profile = {};
-    $rootScope.repo = {};
-  }]);
+    $rootScope.github = $rootScope.profile = $rootScope.repo = {};
+  }]).directive('backButton', function () {
+    return {
+      restrict: 'E',
+      templateUrl: 'back-button.html',
+    };
+  });
 
   app.controller('GithubController', [
-    '$http', '$rootScope', 
+    '$http', '$rootScope',
     function ($http, $rootScope) {
       var github = this;
 
-      github.isShow = false;
       github.launchSearch = function () {
-        // console.log(github.search.who);
         var githubSource = $rootScope.githubUrl + 'users/' + github.search.who + '/following';
         github.users = [];
         github.details = {};

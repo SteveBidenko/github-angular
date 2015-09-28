@@ -1,4 +1,4 @@
-<div class="row">
+<div class="row-fluid">
   <form name="searchForm" class="form-inline" ng-submit="searchForm.$valid && github.launchSearch()" novalidate>
     <div class="form-group">
       <input ng-model="github.search.who" class="form-control" type="text" placeholder="Github User" required />
@@ -6,7 +6,7 @@
     </div>
   </form>
 </div>
-<div class="row record" ng-repeat="user in github.users" ng-animate-ref="{{ user.login }}" ng-show="github.isShow">
+<div class="row-fluid record" ng-repeat="user in github.users" ng-animate-ref="{{ user.login }}" ng-show="github.isShow">
   <a ng-href="#/profile/{{ user.login }}">
     <img ng-src="{{ user.details.avatar_url }}" class="img-circle" width="42" alt="Avatar" />
     <b>{{ user.details.login }}</b>

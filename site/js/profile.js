@@ -1,7 +1,7 @@
 (function () {
   'use strict';
 
-  var app = angular.module('profile', ['ngAnimate', 'ngRoute']);
+  var app = angular.module('profile', []);
 
   app.controller('ProfileController', [
     '$http', '$rootScope', '$routeParams', 
@@ -10,7 +10,6 @@
       var githubUrl = $rootScope.githubUrl + 'users/';
       profile.login = $routeParams.id;
       profile.repos = [];
-      profile.isShow = false;
       profile.reposLoading = function (owner) {
         var githubSource = githubUrl + owner + '/repos';
         $http.get(githubSource).success(function (data) {
@@ -28,9 +27,12 @@
       } else {
         profile.details = $rootScope.github.details[$routeParams.id];
         profile.reposLoading(profile.login);
+        $rootScope.back = function () {
+          window.history.back();
+          delete $rootScope.back;
+        };
       }
       
       $rootScope.profile = profile;
-      // console.log(typeof $rootScope.github.details)
   }]);
 })();

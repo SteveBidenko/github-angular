@@ -1,18 +1,18 @@
 <div ng-animate-ref="{{ repo.name }}" ng-show="repo.isShow">
-  <div class="row record" ng-animate-ref="{{ repo.name }}">
-    <h2 ng-if="repo.ownerInfo.name">{{ repo.ownerInfo.name + ' / ' + repo.name }}</h2>
-    <h2 ng-if="!repo.ownerInfo.name">{{ repo.ownerInfo.login + ' / ' + repo.name }}</h2>
+  <div class="row-fluid record" ng-animate-ref="{{ repo.name }}">
+    <h2>{{ (repo.ownerInfo.name ? repo.ownerInfo.name : repo.ownerInfo.login) + ' / ' + repo.name }}</h2>
   </div>
-  <div class="col-md-6 branch-group" ng-show="repo.isShowBranches">
-    <h3>Branches</h3><br />
-    <ul class="repo-list">
+  <div class="col-md-4 branch-group" ng-show="repo.isShowBranches">
+    <h4>Branches</h4><hr />
+    <ul class="branch-list">
       <li ng-repeat="branch in repo.branches">{{ branch.name }}</li>
     </ul>
   </div>
-  <div class="col-md-6 commit-group" ng-show="repo.isShowCommits">
-    <h3>Commits</h3><br />
-    <ul class="repo-list">
+  <div class="col-md-8 commit-group" ng-show="repo.isShowCommits">
+    <h4>Commits</h4><hr />
+    <ol class="commit-list">
       <li ng-repeat="commit in repo.commits">{{ commit.commit.message }}</li>
-    </ul>
+    </ol>
+    <hr />
   </div>
 </div>

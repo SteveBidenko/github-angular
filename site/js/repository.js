@@ -1,7 +1,7 @@
 (function () {
   'use strict';
 
-  var app = angular.module('repository', ['ngAnimate', 'ngRoute']);
+  var app = angular.module('repository', []);
 
   app.controller('RepositoryController', [
     '$http', '$rootScope', '$routeParams',
@@ -12,7 +12,6 @@
       var githubUrl = $rootScope.githubUrl + 'repos/' + repo.owner + '/' + repo.name;
       repo.ownerInfo = {};
       repo.branches = repo.commits = [];
-      repo.isShow = repo.isShowBranches = repo.isShowCommits = false;
 
       if (typeof $rootScope.profile.details === 'undefined') {
         var githubSource = $rootScope.githubUrl + 'users/' + repo.owner;
@@ -21,6 +20,10 @@
         });
       } else {
         repo.ownerInfo = $rootScope.profile.details;
+        $rootScope.back = function () {
+          window.history.back();
+          delete $rootScope.back;
+        };
       }
 
       $http.get(githubUrl).success(function (data) {
