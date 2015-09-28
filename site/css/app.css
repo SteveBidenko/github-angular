@@ -31,8 +31,13 @@ body {
   transform:translateX(-100%);
 }
 
-.repo-list {
+ul.result-list {
   list-style: none;
+  padding: 0;
+}
+
+ul.result-list li {
+  margin-bottom: 10px;
 }
 
 .btn-control {
