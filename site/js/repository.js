@@ -20,10 +20,7 @@
         });
       } else {
         repo.ownerInfo = $rootScope.profile.details;
-        $rootScope.back = function () {
-          window.history.back();
-          delete $rootScope.back;
-        };
+        $rootScope.backButtonShow = true;
       }
 
       $http.get(githubUrl).success(function (data) {

@@ -9,6 +9,9 @@
       $routeProvider.when('/', {
         templateUrl: 'home.html',
         controller: 'GithubController as github'
+      }).when('/search/:who', {
+        templateUrl: 'home.html',
+        controller: 'GithubController as github'
       }).when('/profile/:id', {
         templateUrl: 'profile.html',
         controller: 'ProfileController as profile'
@@ -22,6 +25,9 @@
   ]).run(['$rootScope', function($rootScope) {
     $rootScope.githubUrl = 'https://api.github.com/';
     $rootScope.github = $rootScope.profile = $rootScope.repo = {};
+    $rootScope.back = function () {
+      window.history.back();
+    };
   }]).directive('backButton', function () {
     return {
       restrict: 'E',
@@ -30,12 +36,17 @@
   });
 
   app.controller('GithubController', [
-    '$http', '$rootScope',
-    function ($http, $rootScope) {
+    '$http', '$rootScope', '$location', '$routeParams',
+    function ($http, $rootScope, $location, $routeParams) {
       var github = this;
+      $rootScope.location = $location;
 
-      github.launchSearch = function () {
-        var githubSource = $rootScope.githubUrl + 'users/' + github.search.who + '/following';
+      github.newSearch = function (request) {
+        $rootScope.backButtonShow = true;
+        $rootScope.location.path('/search/' + request);
+      }
+      github.launchSearch = function (request) {
+        var githubSource = $rootScope.githubUrl + 'users/' + request + '/following';
         github.users = [];
         github.details = {};
 
@@ -51,6 +62,13 @@
         });
       }
 
+      if ($routeParams.who) {
+        $rootScope.searchQuery = $routeParams.who;
+        github.launchSearch($routeParams.who);
+      } else {
+        $rootScope.backButtonShow = false;
+        $rootScope.searchQuery = '';
+      }
       $rootScope.github = github;
     }
   ]);

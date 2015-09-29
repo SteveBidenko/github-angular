@@ -27,10 +27,7 @@
       } else {
         profile.details = $rootScope.github.details[$routeParams.id];
         profile.reposLoading(profile.login);
-        $rootScope.back = function () {
-          window.history.back();
-          delete $rootScope.back;
-        };
+        $rootScope.backButtonShow = true;
       }
       
       $rootScope.profile = profile;
