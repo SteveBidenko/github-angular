@@ -1,4 +1,4 @@
-<div class="row-fluid record" ng-animate-ref="{{ profile.login }}">
+<div class="row-fluid">
   <div class="col-md-4">
     <img class="img-responsive" ng-src="{{ profile.details.avatar_url }}" alt="Full avatar" />
     Login: <b>{{ profile.details.login }}</b><br />
@@ -11,7 +11,7 @@
   <div class="col-md-8">
     <strong>Repositories</strong><hr />
     <ul ng-show="profile.isShow">
-      <li ng-repeat="repo in profile.repos" ng-animate-ref="{{ repo.name }}">
+      <li ng-repeat="repo in profile.repos">
         <a ng-href="#/repo/{{ profile.login }}/{{ repo.name }}">{{ repo.name }}</a>
       </li>
       <li ng-if="profile.repos.length == 0">

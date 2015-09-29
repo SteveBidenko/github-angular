@@ -7,28 +7,38 @@ body {
   border-radius: 3px
 }
 
-.view-container {
+.view-animate-container {
   position:relative;
+  height:600px!important;
+  background:white;
 }
-.view-container > .view.ng-animate {
+
+.view-animate {
+  padding:10px;
+}
+
+.view-animate.ng-enter, .view-animate.ng-leave {
+  transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 1.5s;
+  display:block;
+  width:100%;
   position:absolute;
   top:0;
   left:0;
-  width:100%;
-  min-height:500px;
+  right:0;
+  bottom:0;
+  padding:10px;
 }
-.view.ng-enter, .view.ng-leave,
-.record.ng-anchor {
-  transition:0.5s linear all;
+
+.view-animate.ng-enter {
+  left:100%;
 }
-.view.ng-enter {
-  transform:translateX(100%);
+
+.view-animate.ng-enter.ng-enter-active {
+  left:0;
 }
-.view.ng-enter.ng-enter-active, .view.ng-leave {
-  transform:translateX(0%);
-}
-.view.ng-leave.ng-leave-active {
-  transform:translateX(-100%);
+
+.view-animate.ng-leave.ng-leave-active {
+  left:-100%;
 }
 
 ul.result-list {
@@ -51,6 +61,7 @@ ul.result-list li {
   z-index: 10;
   display: block;
   padding: 5px 8px;
+  margin-right: 10px;
   font-size: 12px;
   color: #337ab7;
   cursor: pointer;
