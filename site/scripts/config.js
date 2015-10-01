@@ -7,16 +7,16 @@
     '$routeProvider',
     function($routeProvider) {
       $routeProvider.when('/', {
-        templateUrl: 'home.html',
+        templateUrl: 'views/home.html',
         controller: 'GithubController as github'
       }).when('/search/:who', {
-        templateUrl: 'home.html',
+        templateUrl: 'views/home.html',
         controller: 'GithubController as github'
       }).when('/profile/:id', {
-        templateUrl: 'profile.html',
+        templateUrl: 'views/profile.html',
         controller: 'ProfileController as profile'
       }).when('/repo/:owner/:id', {
-        templateUrl: 'repository.html',
+        templateUrl: 'views/repository.html',
         controller: 'RepositoryController as repo'
       }).otherwise({
         redirectTo: '/'

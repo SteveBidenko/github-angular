@@ -12,7 +12,7 @@
   }]).directive('backButton', function () {
     return {
       restrict: 'E',
-      templateUrl: 'back-button.html',
+      templateUrl: 'views/back-button.html',
     };
   });
 
