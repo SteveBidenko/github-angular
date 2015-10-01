@@ -4,15 +4,13 @@
   var app = angular.module('profile', []);
 
   app.controller('ProfileController', [
-    '$http', '$rootScope', '$routeParams', 
-    function ($http, $rootScope, $routeParams) {
+    '$http', '$rootScope', '$routeParams', 'githubResources',
+    function ($http, $rootScope, $routeParams, githubResources) {
       var profile = this;
-      var githubUrl = $rootScope.githubUrl + 'users/';
       profile.login = $routeParams.id;
       profile.repos = [];
       profile.reposLoading = function (owner) {
-        var githubSource = githubUrl + owner + '/repos';
-        $http.get(githubSource).success(function (data) {
+        $http.get(githubResources.repos(owner)).success(function (data) {
           profile.repos = data;
           profile.isShow = true;
         });
@@ -20,7 +18,7 @@
 
       if (typeof $rootScope.github.details === 'undefined') {
         profile.details = {};
-        $http.get(githubUrl + profile.login).success(function (data) {
+        $http.get(githubResources.userInfo(profile.login)).success(function (data) {
           profile.details = data;
           profile.reposLoading(profile.login);
         });
@@ -29,7 +27,7 @@
         profile.reposLoading(profile.login);
         $rootScope.backButtonShow = true;
       }
-      
+
       $rootScope.profile = profile;
   }]);
 })();
