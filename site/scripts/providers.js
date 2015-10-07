@@ -15,13 +15,12 @@
 
           $http.get(githubResources.following(request)).success(function (data) {
             github.users = data;
+            github.isShow = data.length == 0 ? true : github.isShow;
             data.forEach(function (currentUser, idx) {
               $http.get(currentUser.url).success(function (data) {
                 github.users[idx].details = data;
                 github.details[data.login] = data;
-                if (idx == github.users.length - 1) {
-                  github.isShow = true;
-                }
+                github.isShow = idx == github.users.length - 1 ? true : github.isShow;
               });
             });
           });

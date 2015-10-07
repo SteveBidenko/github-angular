@@ -15,6 +15,7 @@
         $rootScope.location.path('/search/' + request);
       };
 
+      githubSearch.isShow = false;
       if ($routeParams.who) {
         $rootScope.searchQuery = $routeParams.who;
         github.info = githubSearch.$get($routeParams.who);
