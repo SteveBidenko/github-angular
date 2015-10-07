@@ -7,18 +7,18 @@
       </div>
     </form>
   </div>
-  <div class="row-fluid" ng-show="github.isShow">
+  <div class="row-fluid" ng-show="github.info.isShow">
     <h4>Results</h4>
     <hr />
     <ul class="result-list">
-      <li ng-repeat="user in github.users" ng-animate-ref="{{ user.login }}">
+      <li ng-repeat="user in github.info.users" ng-animate-ref="{{ user.login }}">
         <a ng-href="#/profile/{{ user.login }}">
           <img ng-src="{{ user.details.avatar_url }}" class="img-circle" width="42" alt="Avatar" />
           <b>{{ user.details.login }}</b>
           <span ng-show="user.details.email">&lt;{{ user.details.email }}&gt;</span>
         </a>
       </li>
-      <li ng-if="github.users.length == 0">
+      <li ng-if="github.info.users.length == 0">
         <i>No results found...</i>
       </li>
     </ul>

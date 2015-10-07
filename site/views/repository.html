@@ -1,17 +1,17 @@
 <div>
   <div class="row-fluid">
-    <h2>{{ (repo.ownerInfo.name ? repo.ownerInfo.name : repo.ownerInfo.login) + ' / ' + repo.name }}</h2>
+    <h2>{{ (repo.owner.details.login ? repo.owner.details.login : repo.info.owner) + ' / ' + repo.info.name }}</h2>
   </div>
-  <div class="col-md-4 branch-group" ng-show="repo.isShowBranches">
+  <div class="col-md-4 branch-group" ng-show="repo.info.isShowBranches">
     <h4>Branches</h4><hr />
     <ul class="branch-list">
-      <li ng-repeat="branch in repo.branches">{{ branch.name }}</li>
+      <li ng-repeat="branch in repo.info.branches">{{ branch.name }}</li>
     </ul>
   </div>
-  <div class="col-md-8 commit-group" ng-show="repo.isShowCommits">
+  <div class="col-md-8 commit-group" ng-show="repo.info.isShowCommits">
     <h4>Commits</h4><hr />
     <ol class="commit-list">
-      <li ng-repeat="commit in repo.commits">{{ commit.commit.message }}</li>
+      <li ng-repeat="commit in repo.info.commits">{{ commit.commit.message }}</li>
     </ol>
     <hr />
   </div>

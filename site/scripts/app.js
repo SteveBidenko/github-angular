@@ -2,10 +2,9 @@
   'use strict';
 
   var app = angular.module('guide', [
-    'config', 'factory', 'search', 'profile', 'repository',
+    'config', 'providers', 'controllers',
     'ngAnimate'
   ]).run(['$rootScope', function($rootScope) {
-    $rootScope.github = $rootScope.profile = $rootScope.repo = {};
     $rootScope.back = function () {
       window.history.back();
     };

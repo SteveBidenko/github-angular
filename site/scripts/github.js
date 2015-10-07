@@ -1,7 +1,7 @@
 (function () {
   'use strict';
 
-  var app = angular.module('factory', []);
+  var app = angular.module('urls', []);
 
   app.factory('githubResources', ['githubSite', function (githubSite) {
     return {
