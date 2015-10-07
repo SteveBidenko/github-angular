@@ -1,0 +1,31 @@
+{
+  "name": "Guide along Github",
+  "version": "0.0.2",
+  "homepage": "https://github.com/SteveBidenko/github-angular",
+  "authors": [
+    "Steve Bidenko <steve.bidenko@gmail.com>"
+  ],
+  "description": "This package helps use to navigate along github profiles and repositories",
+  "main": "site/index.html",
+  "moduleType": [],
+  "keywords": [
+    "angular.js",
+    "javascript"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "./site/libs",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "~1.4.7",
+    "bootstrap": "~3.3.5",
+    "angular-route": "~1.4.7",
+    "angular-animate": "~1.4.7"
+  }
+}

@@ -19,9 +19,11 @@
               $http.get(currentUser.url).success(function (data) {
                 github.users[idx].details = data;
                 github.details[data.login] = data;
+                if (idx == github.users.length - 1) {
+                  github.isShow = true;
+                }
               });
             });
-            github.isShow = true;
           });
           return this;
         }

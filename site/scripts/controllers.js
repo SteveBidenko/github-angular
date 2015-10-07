@@ -15,13 +15,9 @@
         $rootScope.location.path('/search/' + request);
       };
 
-      github.launchSearch = function (request) {
-        github.info = githubSearch.$get(request);
-      };
-
       if ($routeParams.who) {
         $rootScope.searchQuery = $routeParams.who;
-        github.launchSearch($routeParams.who);
+        github.info = githubSearch.$get($routeParams.who);
       } else {
         $rootScope.backButtonShow = false;
         $rootScope.searchQuery = '';
