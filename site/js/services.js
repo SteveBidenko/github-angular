@@ -1,108 +1,82 @@
+/**
+ * The service github which gets full information about a coder, his repositories and commits
+ *
+ * @namespace Services
+ */
 (function () {
     'use strict';
 
     angular
-        .module('Providers', ['urls'])
-        .service('githubSearch', githubSearch)
-        .service('githubProfile', githubProfile)
-        .service('githubRepository', githubRepository);
+        .module('Github', ['urls'])
+        .service('github', github)
 
-    githubSearch.$inject = ['githubResources', '$http'];
+    github.$inject = ['githubResources', '$http'];
     /* @ngInject */
-    function githubSearch(githubResources, $http) {
-        return {
-            users: [],
-            details: {},
-            isShow: false,
-            $get: function (request) {
-                var github = this;
+    function github(githubResources, $http) {
+        var self = this;
+        self.users = [];
+        self.login = null;
+        self.detailProfile = {};
+        self.detailSearch = {};
+        self.detailRepository = {};
+        self.repos = [];
+        self.owner = null;
+        self.repositoryName = '';
+        self.isShowRepository = false,
+        self.branches = [];
+        self.isShowBranches = false;
+        self.commits = [];
+        self.isShowCommits = false;
+        self.isShowProfile = false;
+        self.isShowSearch = false;
+        self.search = search;
+        self.profile = profile;
+        self.repository = repository;
+        return self;
 
-                $http.get(githubResources.following(request)).success(function (data) {
-                    github.users = data;
-                    github.isShow = data.length == 0 ? true : github.isShow;
-                    data.forEach(function (currentUser, idx) {
-                        $http.get(currentUser.url).success(function (data) {
-                            github.users[idx].details = data;
-                            github.details[data.login] = data;
-                            github.isShow = idx == github.users.length - 1 ? true : github.isShow;
-                        });
+        function search(request) {
+            $http.get(githubResources.following(request)).success(function (data) {
+                self.users = data;
+                self.isShowSearch = data.length == 0 ? true : self.isShowSearch;
+                data.forEach(function (currentUser, idx) {
+                    $http.get(currentUser.url).success(function (data) {
+                        self.users[idx].details = data;
+                        self.detailSearch[data.login] = data;
+                        self.isShowSearch = idx == self.users.length - 1 ? true : self.isShowSearch;
                     });
                 });
-                return this;
-            }
+            });
+            return self;
         }
-    }
 
-    githubProfile.$inject = ['githubResources', '$http'];
-    /* @ngInject */
-    function githubProfile(githubResources, $http) {
-        return {
-            login: null,
-            details: {},
-            repos: [],
-            isShow: false,
-            reposLoading: function (owner) {
-                var profile = this;
-                $http.get(githubResources.repos(owner)).success(function (data) {
-                    profile.repos = data;
-                    profile.isShow = true;
-                });
-                return this;
-            },
-            $get: function (login) {
-                var profile = this;
-                profile.login = login;
-                $http.get(githubResources.userInfo(login)).success(function (data) {
-                    profile.details = data;
-                    profile.reposLoading(login);
-                });
-                return this;
-            }
-        };
-    }
+        function profile(loginName) {
+            self.login = loginName;
+            $http.get(githubResources.userInfo(loginName)).success(function (data) {
+                self.detailProfile = data;
+            });
+            $http.get(githubResources.repos(loginName)).success(function (data) {
+                self.repos = data;
+                self.isShowProfile = true;
+            });
+            return self;
+        }
 
-    githubRepository.$inject = ['githubResources', '$http'];
-    /* @ngInject */
-    function githubRepository(githubResources, $http) {
-        return {
-            owner: null,
-            name: null,
-            details: {},
-            isShowRepository: false,
-            banches: [],
-            isShowBranches: false,
-            commits: [],
-            isShowCommits: false,
-            getDetails: function (user, name) {
-                var githubRepository = this;
-                $http.get(githubResources.repository(user, name)).success(function (data) {
-                    githubRepository.details = data;
-                    githubRepository.isShowRepository = true;
-                });
-                return this;
-            },
-            getBranches: function (user, name) {
-                var githubRepository = this;
-                $http.get(githubResources.branches(user, name)).success(function (data) {
-                    githubRepository.branches = data;
-                    githubRepository.isShowBranches = true;
-                });
-                return this;
-            },
-            getCommits: function (user, name) {
-                var githubRepository = this;
-                $http.get(githubResources.commits(user, name)).success(function (data) {
-                    githubRepository.commits = data;
-                    githubRepository.isShowCommits = true;
-                });
-                return this;
-            },
-            $get: function (user, name) {
-                this.owner = user;
-                this.name = name;
-                this.getDetails(user, name).getBranches(user, name).getCommits(user, name);
-                return this;
-            }
-        };
+        function repository(user, name) {
+            self.owner = user;
+            self.repositoryName = name;
+            $http.get(githubResources.repository(user, name)).success(function (data) {
+                self.detailRepository = data;
+                self.isShowRepository = true;
+            });
+            $http.get(githubResources.branches(user, name)).success(function (data) {
+                self.branches = data;
+                self.isShowBranches = true;
+            });
+            $http.get(githubResources.commits(user, name)).success(function (data) {
+                self.commits = data;
+                self.isShowCommits = true;
+            });
+            return self;
+        }
     }
 })();

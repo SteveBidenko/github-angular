@@ -1,16 +1,16 @@
 <div class="row-fluid">
   <div class="col-md-4">
-    <img class="img-responsive" ng-src="{{ ::profile.info.details.avatar_url }}" alt="Full avatar" />
-    Login: <b>{{ ::profile.info.details.login }}</b><br />
-    <span ng-if="profile.info.details.email">
-      Mail: {{ ::profile.info.details.email }}<br />
+    <img class="img-responsive" ng-src="{{ profile.info.detailProfile.avatar_url }}" alt="Full avatar" />
+    Login: <b>{{ profile.info.detailProfile.login }}</b><br />
+    <span ng-if="profile.info.detailProfile.email">
+      Mail: {{ profile.info.detailProfile.email }}<br />
     </span>
-    Name: <b>{{ profile.info.details.name ? profile.info.details.name : '-' }}</b>
+    Name: <b>{{ profile.info.detailProfile.name ? profile.info.detailProfile.name : '-' }}</b>
     <hr />
   </div>
   <div class="col-md-8">
     <strong>Repositories</strong><hr />
-    <ul ng-show="profile.info.isShow">
+    <ul ng-show="profile.info.isShowProfile">
       <li ng-repeat="repo in profile.info.repos">
         <a ng-href="#/repo/{{ ::profile.login }}/{{ ::repo.name }}">{{ ::repo.name }}</a>
       </li>

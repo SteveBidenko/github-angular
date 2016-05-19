@@ -7,7 +7,7 @@
     'use strict';
 
     angular
-        .module('guide', ['config', 'Providers', 'controllers', 'ngAnimate'])
+        .module('guide', ['config', 'Github', 'controllers', 'ngAnimate'])
         .run(run)
         .directive('backButton', function () {
             return {
