@@ -1,16 +1,32 @@
 /**
  * All the controllers
  *
- * @namespace controllers
+ * @namespace Controllers
  */
 (function () {
     'use strict';
 
     angular
         .module('controllers', ['Github'])
+        .controller('SearchController', SearchController)
         .controller('GithubController', GithubController)
         .controller('ProfileController', ProfileController)
         .controller('RepositoryController', RepositoryController);
+
+    SearchController.$inject = ['$rootScope', '$location'];
+    /* @ngInject */
+    function SearchController($rootScope, $location) {
+        var mv = this;
+
+        $rootScope.location = $location;
+        $rootScope.isShowResults = true;
+
+        mv.newSearch = function (request) {
+            $rootScope.backButtonShow = true;
+            $rootScope.isShowResults = true;
+            $rootScope.location.path('/search/' + request);
+        };
+    }
 
     GithubController.$inject = ['$rootScope', '$routeParams', '$location', 'github'];
     /* @ngInject */
@@ -19,19 +35,16 @@
 
         $rootScope.location = $location;
 
-        mv.newSearch = function (request) {
-            $rootScope.backButtonShow = true;
-            $rootScope.location.path('/search/' + request);
-        };
-
         github.isShowSearch = false;
 
         if ($routeParams.who) {
             $rootScope.searchQuery = $routeParams.who;
             mv.info = github.search($routeParams.who);
+            $rootScope.isShowResults = true;
         } else {
             $rootScope.backButtonShow = false;
             $rootScope.searchQuery = '';
+            $rootScope.isShowResults = false;
             mv.info = [];
         }
     }
@@ -48,7 +61,7 @@
 
     RepositoryController.$inject = ['$rootScope', '$routeParams', 'github', '$log'];
     /* @ngInject */
-    function RepositoryController($rootScope, $routeParams, github, $log) {
+    function RepositoryController($rootScope, $routeParams, github) {
         var mv = this;
 
         mv.info = github.repository($routeParams.owner, $routeParams.id);
@@ -58,6 +71,5 @@
             var owner = mv.owner.detailProfile.login ? mv.owner.detailProfile.login : mv.info.owner;
             return owner + ' / ' + mv.info.detailRepository.name;
         };
-        $log.info(mv.info);
     }
 })();

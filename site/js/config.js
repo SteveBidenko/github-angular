@@ -7,15 +7,16 @@
     'use strict';
 
     angular
-        .module('config', ['ngRoute'])
+        .module('config', ['ngRoute', 'ngMaterial'])
         .constant('githubSite', {
             url: 'https://api.github.com/'
         })
         .config(primaryRoute);
 
-    primaryRoute.$inject = ['$routeProvider'];
-    /* $ng-inject */
-    function primaryRoute($routeProvider) {
+    primaryRoute.$inject = ['$routeProvider', '$mdThemingProvider'];
+    /* @ngInject */
+    function primaryRoute($routeProvider, $mdThemingProvider) {
+        // Set routing
         $routeProvider.when('/', {
             templateUrl: 'views/home.html',
             controller: 'GithubController as github'
@@ -31,5 +32,8 @@
         }).otherwise({
             redirectTo: '/'
         });
+        // Set theme
+        $mdThemingProvider.theme('default')
+            .primaryPalette('cyan');
     }
 })();
