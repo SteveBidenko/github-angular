@@ -1,18 +1,20 @@
-<div>
-  <div class="row-fluid">
-    <h2 ng-bind="repo.title()"></h2>
-  </div>
-  <div class="col-md-4 branch-group" ng-show="repo.info.isShowBranches">
-    <h4>Branches</h4><hr />
-    <ul class="branch-list">
-      <li ng-repeat="branch in repo.info.branches" ng-bind="branch.name"></li>
-    </ul>
-  </div>
-  <div class="col-md-8 commit-group" ng-show="repo.info.isShowCommits">
-    <h4>Commits</h4><hr />
-    <ol class="commit-list">
-      <li ng-repeat="commit in repo.info.commits">{{ ::commit.commit.message }}</li>
-    </ol>
-    <hr />
-  </div>
-</div>
+<h2 ng-bind="repo.title()"></h2>
+<md-divider></md-divider>
+<md-content layout="row">
+    <md-content layout="column" flex="25">
+        <md-subheader>Branches</md-subheader>
+        <md-divider></md-divider>
+        <md-list ng-show="repo.info.isShowBranches">
+            <md-list-item ng-repeat="branch in repo.info.branches" ng-bind="branch.name"></md-list-item>
+        </md-list>
+    </md-content>
+    <md-content layout="column" flex ng-show="repo.info.isShowCommits">
+        <md-subheader>Commits</md-subheader>
+        <md-divider></md-divider>
+        <md-list>
+            <md-list-item ng-repeat="commit in repo.info.commits" layout="row">
+                {{ ::$index + 1 }})&nbsp;{{ ::commit.commit.message }}
+            </md-list-item>
+        </md-list>
+    </md-content>
+</md-content>
