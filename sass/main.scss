@@ -50,22 +50,23 @@ ul.result-list li {
   margin-bottom: 10px;
 }
 
-.btn-control {
-  position: relative;
+md-list-item.contact-repo {
+  width: 190px;
+  max-width: 190px;
+  float: left;
+  box-sizing: border-box;
+  > a {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+  > .md-list-item-text {
+    padding: 8px;
+    background: #f0f0f0;
+    border-radius: 3px;
+  }
 }
 
-.back-btn {
-  position: absolute;
-  top: 0;
-  right: 0;
-  z-index: 10;
-  display: block;
-  padding: 5px 8px;
-  margin-right: 10px;
-  font-size: 12px;
-  color: #337ab7;
-  cursor: pointer;
-  background-color: #fff;
-  border: 1px solid #e1e1e8;
-  border-radius: 0 4px 0 4px;
+img.img-responsive {
+  width: 230px;
 }

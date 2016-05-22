@@ -35,6 +35,7 @@
         return self;
 
         function search(request) {
+            self.users = [];
             $http.get(githubResources.following(request)).success(function (data) {
                 self.users = data;
                 self.isShowSearch = data.length == 0 ? true : self.isShowSearch;
@@ -48,15 +49,24 @@
             });
             return self;
         }
-
-        function profile(loginName) {
+        /**
+         * Get full profile of the user with all the repositories
+         *
+         * @param {String} loginName
+         * @param {Function} [callback]
+         * @returns {github}
+         */
+        function profile(loginName, callback) {
             self.login = loginName;
             $http.get(githubResources.userInfo(loginName)).success(function (data) {
                 self.detailProfile = data;
-            });
-            $http.get(githubResources.repos(loginName)).success(function (data) {
-                self.repos = data;
-                self.isShowProfile = true;
+                $http.get(githubResources.repos(loginName)).success(function (data) {
+                    self.repos = data;
+                    self.isShowProfile = true;
+                    if (typeof callback === 'function') {
+                        callback(self.repos);
+                    }
+                });
             });
             return self;
         }

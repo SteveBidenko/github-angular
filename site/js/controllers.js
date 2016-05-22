@@ -7,7 +7,7 @@
     'use strict';
 
     angular
-        .module('controllers', ['Github'])
+        .module('controllers', ['Github', 'ngMaterial', 'ngMessages'])
         .controller('SearchController', SearchController)
         .controller('GithubController', GithubController)
         .controller('ProfileController', ProfileController)
@@ -34,6 +34,7 @@
         var mv = this;
 
         $rootScope.location = $location;
+        mv.info = [];
 
         github.isShowSearch = false;
 
@@ -45,7 +46,6 @@
             $rootScope.backButtonShow = false;
             $rootScope.searchQuery = '';
             $rootScope.isShowResults = false;
-            mv.info = [];
         }
     }
 
