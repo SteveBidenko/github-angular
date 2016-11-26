@@ -1,5 +1,21 @@
 body {
-  padding-top: 10px;
+  margin: 0;
+  & > div.wrapper {
+    padding: 10px;
+  }
+
+  & div.copyright {
+    position: fixed;
+    bottom: 0;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    background-color: white;
+    opacity: 0.5;
+    & .title {
+      font-weight: bold;
+    }
+  }
 }
 
 .branch-group {
