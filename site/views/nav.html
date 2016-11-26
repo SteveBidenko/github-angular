@@ -1,0 +1,12 @@
+<md-toolbar layout-padding class="md-medium-tall">
+    <form name="searchForm" ng-submit="searchForm.$valid && sc.newSearch(searchQuery)" novalidate layout="row">
+        <md-input-container class="md-block">
+            <label>Github User</label>
+            <input ng-model="searchQuery" type="text" required/>
+        </md-input-container>
+        <md-button class="md-raised" type="submit">Search</md-button>
+        <md-button class="md-raised" ng-if="backButtonShow" ng-click="back()">Back</md-button>
+    </form>
+</md-toolbar>
+<div ng-if="isShowResults">Loading</div>
+<ng-outlet></ng-outlet>

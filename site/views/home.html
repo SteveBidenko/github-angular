@@ -4,8 +4,8 @@
             <a class="md-list-item-text" ng-href="#/profile/{{ ::user.login }}" layout="row"
                layout-align="center center">
                 <img class="md-avatar" ng-src="{{ ::user.details.avatar_url }}" width="42" alt="Avatar"/>
-                <b>{{ ::user.details.login }}</b>
-                <span ng-show="user.details.email">&lt;{{ ::user.details.email }}&gt;</span>
+                <b ng-bind="user.details.login"></b>
+                <span ng-show="user.details.email">{{ '&lt;' + user.details.email + '&gt;'}}</span>
             </a>
             <md-divider ng-if="!$last"></md-divider>
         </md-list-item>
@@ -14,3 +14,4 @@
         </div>
     </md-list>
 </md-content>
+<ng-outlet></ng-outlet>

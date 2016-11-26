@@ -3,9 +3,9 @@
         <md-subheader>Details</md-subheader>
         <img class="img-responsive" ng-src="{{ profile.info.detailProfile.avatar_url }}" alt="Full avatar"/>
 
-        Login: <b>{{ profile.info.detailProfile.login }}</b><br/>
+        Login: <b ng-bind="profile.info.detailProfile.login"></b><br/>
         <span ng-if="profile.info.detailProfile.email">
-            Mail: {{ profile.info.detailProfile.email }}<br/>
+            Mail: <span ng-bind="profile.info.detailProfile.email"><span><br/>
         </span>
         Name: <b>{{ profile.info.detailProfile.name ? profile.info.detailProfile.name : '-' }}</b>
     </md-content>
@@ -16,18 +16,14 @@
             <md-list-item class="md-1-line contact-item contact-repo" ng-repeat="repo in profile.info.repos"
                           ng-if="profile.info.repos.length" layout="row" layout-wrap>
                 <div class="md-list-item-text compact" flex>
-                    <a ng-href="#/repo/{{ ::profile.login }}/{{ ::repo.name }}">{{ ::repo.name }}</a>
+                    <a ng-href="#/repo/{{ ::profile.login }}/{{ ::repo.name }}" ng-bind="repo.name"></a>
                 </div>
             </md-list-item>
             <md-list-item ng-if="!profile.info.repos.length">
                 <i>No results found...</i>
             </md-list-item>
         </md-list>
-        <!--<md-contact-chips ng-model="profile.repositories"></md-contact-chips>-->
-        <!--
-        <md-grid-list ng-show="profile.info.isShowProfile" md-cols="3" md-row-height="4:3" ng-cloak>
-        </md-grid-list>
-        -->
         <md-divider></md-divider>
     </md-content>
 </md-content>
+<ng-outlet></ng-outlet>

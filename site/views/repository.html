@@ -13,8 +13,9 @@
         <md-divider></md-divider>
         <md-list>
             <md-list-item ng-repeat="commit in repo.info.commits" layout="row">
-                {{ ::$index + 1 }})&nbsp;{{ ::commit.commit.message }}
+                {{ ::$index + 1 }})&nbsp;<span ng-bind="commit.commit.message"></span>
             </md-list-item>
         </md-list>
     </md-content>
 </md-content>
+<ng-outlet></ng-outlet>
