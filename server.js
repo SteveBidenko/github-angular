@@ -8,6 +8,11 @@ var http    = require('http'),         // http server core module
 
 // Setup and configure Express http server. Expect a subfolder called 'site' to be the web root.
 httpApp.use(express.static(__dirname + '/site/'));
+
+httpApp.get(['/search/*', '/profile/*', '/repo/*'], function(req, res){
+    res.sendFile(__dirname + '/site/index.html');
+});
+
 // Start Express http server on the port
 console.info(timeNow + ': Starting http server on the port ' + port);
 console.info(timeNow + ': Ctrl-C to abort');
