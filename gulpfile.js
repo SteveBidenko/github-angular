@@ -36,8 +36,8 @@ gulp.task('bower-files', function() {
             'angular': {
                 main: 'angular.min.js'
             },
-            'angular-route': {
-                main: 'angular-route.min.js'
+            'angular-component-route': {
+                main: 'angular_1_router.js'
             },
             'angular-animate': {
                 main: 'angular-animate.min.js'

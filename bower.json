@@ -1,6 +1,6 @@
 {
-  "name": "Guide along Github",
-  "version": "0.0.2",
+  "name": "my-favorites",
+  "version": "0.0.3",
   "homepage": "https://github.com/SteveBidenko/github-angular",
   "authors": [
     "Steve Bidenko <steve.bidenko@gmail.com>"
@@ -10,6 +10,9 @@
   "moduleType": [],
   "keywords": [
     "angular.js",
+    "components",
+    "component-router",
+    "angular-material",
     "javascript"
   ],
   "license": "MIT",
@@ -26,6 +29,7 @@
     "angular": "^1.5.5",
     "angular-route": "^1.5.5",
     "angular-animate": "^1.5.5",
-    "angular-material": "^1.0.8"
+    "angular-material": "^1.0.8",
+    "angular-component-router": "^0.2.1"
   }
 }
