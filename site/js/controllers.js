@@ -28,25 +28,27 @@
         };
     }
 
-    GithubController.$inject = ['$rootScope', '$routeParams', '$location', 'github'];
+    GithubController.$inject = ['$rootScope', '$location', 'github'];
     /* @ngInject */
-    function GithubController($rootScope, $routeParams, $location, github) {
+    function GithubController($rootScope, $location, github) {
         var mv = this;
-
-        $rootScope.location = $location;
         mv.info = [];
-
         github.isShowSearch = false;
 
-        if ($routeParams.who) {
-            $rootScope.searchQuery = $routeParams.who;
-            mv.info = github.search($routeParams.who);
-            $rootScope.isShowResults = true;
-        } else {
-            $rootScope.backButtonShow = false;
-            $rootScope.searchQuery = '';
-            $rootScope.isShowResults = false;
-        }
+        this.$routerOnActivate = function(next) {
+            console.log('$routerOnActivate', this, arguments, next);
+            if (next.params.who) {
+                $rootScope.searchQuery = next.params.who;
+                mv.info = github.search(next.params.who);
+                $rootScope.isShowResults = true;
+            } else {
+                $rootScope.backButtonShow = false;
+                $rootScope.searchQuery = '';
+                $rootScope.isShowResults = false;
+            }
+            $rootScope.location = $location;
+        };
+
     }
 
     ProfileController.$inject = ['$rootScope', '$routeParams', 'github'];

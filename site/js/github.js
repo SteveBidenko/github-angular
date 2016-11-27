@@ -7,7 +7,7 @@
     'use strict';
 
     angular
-        .module('urls', ['config'])
+        .module('urls', ['app'])
         .factory('githubResources', githubResources);
 
     githubResources.$inject = ['githubSite'];

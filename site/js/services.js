@@ -22,7 +22,7 @@
         self.repos = [];
         self.owner = null;
         self.repositoryName = '';
-        self.isShowRepository = false,
+        self.isShowRepository = false;
         self.branches = [];
         self.isShowBranches = false;
         self.commits = [];
