@@ -13,18 +13,29 @@
         .controller('ProfileController', ProfileController)
         .controller('RepositoryController', RepositoryController);
 
-    SearchController.$inject = ['$rootScope', '$location'];
+    SearchController.$inject = ['$location'];
     /* @ngInject */
-    function SearchController($rootScope, $location) {
+    function SearchController($location) {
         var mv = this;
 
-        $rootScope.isShowResults = true;
+        mv.isShowResults = false;
+        mv.backButtonShow = false;
+        console.log(mv);
 
         mv.newSearch = function (request) {
             console.log(request);
-            $rootScope.backButtonShow = true;
-            $rootScope.isShowResults = true;
+            mv.backButtonShow = true;
+            mv.isShowResults = true;
             $location.path('/search/' + request);
+        };
+
+        mv.back = function() {
+            console.log('back is pressed');
+            $location.path('/');
+        };
+
+        mv.$routerOnActivate = function(next) {
+            console.log('SearchController $routerOnActivate', next);
         };
     }
 
@@ -36,7 +47,7 @@
         github.isShowSearch = false;
 
         this.$routerOnActivate = function(next) {
-            // console.log('$routerOnActivate', this, arguments, next);
+            console.log('GithubController $routerOnActivate', next);
             if (next.params.who) {
                 $rootScope.searchQuery = next.params.who;
                 mv.info = github.search(next.params.who);

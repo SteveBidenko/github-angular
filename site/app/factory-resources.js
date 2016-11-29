@@ -19,7 +19,7 @@
             users: users,
             userInfo: userInfo,
             following: following,
-            repos: repos,
+            repositories: repositories,
             repository: repository,
             branches: branches,
             commits: commits
@@ -48,8 +48,8 @@
          * @param {String} user
          * @returns {string}
          */
-        function repos(user) {
-            return userInfo(user) + '/repos';
+        function repositories(user) {
+            return userInfo(user) + '/repositories';
         }
         /**
          * Get user repository url
@@ -59,7 +59,7 @@
          * @returns {string}
          */
         function repository(user, name) {
-            return githubSite.url + 'repos/' + user + '/' + name;
+            return githubSite.url + 'repositories/' + user + '/' + name;
         }
         /**
          * Get branches' url of the user repository

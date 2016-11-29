@@ -12,11 +12,11 @@
             url: 'https://api.github.com/'
         })
         .value('$routerRootComponent', 'app')
-        .config(router)
+        .config(config)
         .run(run)
         .component('app', {
             templateUrl: 'app/views/app.html',
-            controller: 'SearchController',
+            controller: 'SearchController as mv',
             $routeConfig: [
                 {path: '/', name: 'StartPage', component: 'startPage', useAsDefault: true},
                 {path: '/search/...', name: 'Subscriptions', component: 'subscriptions'},
@@ -27,12 +27,17 @@
             templateUrl: 'app/views/nav.html',
             $routeConfig: [
                 {path: '/', name: 'StartPage', component: 'startPage', useAsDefault: true},
+                {path: '/:who', name: 'Subscriptions', component: 'subscriptions'}
             ]
         })
         .component('subscriptions', {
             templateUrl: 'app/views/subscriptions.html',
             bindings: { $router: '<' },
-            controller: 'GithubController as github'
+            controller: 'GithubController as github',
+            $routeConfig: [
+                {path: '/', name: 'StartPage', component: 'startPage', useAsDefault: true},
+                {path: '/:who', name: 'Subscriptions', component: 'subscriptions'}
+            ]
         })
         .component('profile', {
             templateUrl: 'app/views/profile.html',
@@ -50,32 +55,30 @@
             ]
         });
 
-    run.$inject = ['$rootScope', '$window'];
+    run.$inject = ['$window'];
     /* @ngInject */
     /**
      * This applications starts from this function
      *
-     * @param {Object} $rootScope
      * @param {Object} $window
      */
-    function run($rootScope, $window) {
-        console.log('Called run', $rootScope, $window);
-        // $rootScope.back = function () {
-        //     $window.history.back();
-        // };
+    function run($window) {
+        console.log('Called run', $window);
     }
-    router.$inject = ['$locationProvider', '$mdThemingProvider'];
+    config.$inject = ['$locationProvider', '$mdThemingProvider', '$requestProvider'];
     /* @ngInject */
     /**
-     * Set component routing
+     * Set the app configuration (component routing, theme, etc.)
      *
      * @param {Object} $locationProvider
      * @param {Object} $mdThemingProvider
+     * @param {Object} $requestProvider
      */
-    function router($locationProvider, $mdThemingProvider) {
+    function config($locationProvider, $mdThemingProvider, $requestProvider) {
         $locationProvider.html5Mode(true);
         // Set theme
         $mdThemingProvider.theme('default')
             .primaryPalette('blue');
+        $requestProvider.init();
     }
 })();
