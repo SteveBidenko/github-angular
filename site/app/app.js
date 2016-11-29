@@ -15,7 +15,7 @@
         .config(router)
         .run(run)
         .component('app', {
-            templateUrl: 'views/app.html',
+            templateUrl: 'app/views/app.html',
             controller: 'SearchController',
             $routeConfig: [
                 {path: '/', name: 'StartPage', component: 'startPage', useAsDefault: true},
@@ -24,18 +24,18 @@
             ]
         })
         .component('startPage', {
-            templateUrl: 'views/nav.html',
+            templateUrl: 'app/views/nav.html',
             $routeConfig: [
                 {path: '/', name: 'StartPage', component: 'startPage', useAsDefault: true},
             ]
         })
         .component('subscriptions', {
-            templateUrl: 'views/subscriptions.html',
+            templateUrl: 'app/views/subscriptions.html',
             bindings: { $router: '<' },
             controller: 'GithubController as github'
         })
         .component('profile', {
-            templateUrl: 'views/profile.html',
+            templateUrl: 'app/views/profile.html',
             controller: 'ProfileController as profile',
             $routeConfig: [
                 {path: '/', name: 'StartPage', component: 'startPage', useAsDefault: true},
@@ -43,7 +43,7 @@
             ]
         })
         .component('repositories', {
-            templateUrl: 'views/repository.html',
+            templateUrl: 'app/views/repository.html',
             controller: 'RepositoryController as repository',
             $routeConfig: [
                 {path: '/repo/:owner/:id', name: 'Repositories', component: 'repositories'}
