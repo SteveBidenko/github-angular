@@ -18,13 +18,13 @@
     function SearchController($rootScope, $location) {
         var mv = this;
 
-        $rootScope.location = $location;
         $rootScope.isShowResults = true;
 
         mv.newSearch = function (request) {
+            console.log(request);
             $rootScope.backButtonShow = true;
             $rootScope.isShowResults = true;
-            $rootScope.location.path('/search/' + request);
+            $location.path('/search/' + request);
         };
     }
 
@@ -36,7 +36,7 @@
         github.isShowSearch = false;
 
         this.$routerOnActivate = function(next) {
-            console.log('$routerOnActivate', this, arguments, next);
+            // console.log('$routerOnActivate', this, arguments, next);
             if (next.params.who) {
                 $rootScope.searchQuery = next.params.who;
                 mv.info = github.search(next.params.who);

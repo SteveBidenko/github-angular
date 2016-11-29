@@ -1,7 +1,12 @@
+body[ng-cloak] {
+  display:none;
+}
+
 body {
   margin: 0;
   & > div.wrapper {
     padding: 10px;
+    height: 95vh;
   }
 
   & div.copyright {
@@ -15,6 +20,13 @@ body {
     & .title {
       font-weight: bold;
     }
+  }
+}
+
+app {
+  height: 100%;
+  > section {
+    height: 100%;
   }
 }
 

@@ -1,0 +1,27 @@
+<md-toolbar layout-padding class="md-medium-tall">
+    <form name="searchForm" ng-submit="searchForm.$valid && newSearch(searchQuery)" novalidate layout="row">
+        <md-input-container class="md-block">
+            <label>Github User</label>
+            <input ng-model="searchQuery" type="text" required/>
+        </md-input-container>
+        <md-button class="md-raised" type="submit">Search</md-button>
+        <md-button class="md-raised" ng-if="backButtonShow" ng-click="back()">Back</md-button>
+    </form>
+</md-toolbar>
+<section layout="row">
+    <md-sidenav class="md-sidenav-left" md-component-id="left" md-is-locked-open="$mdMedia('gt-md')" layout="column">
+        <md-content class="favorites" flex="70">
+            <h3>My favorites</h3>
+            <md-list></md-list>
+        </md-content>
+        <md-content class="recent" flex>
+            <h3>Recent</h3>
+            <md-list></md-list>
+        </md-content>
+    </md-sidenav>
+    <md-content>
+        <h3>Workshop</h3>
+        <ng-outlet></ng-outlet>
+    <md-content>
+</section>
+

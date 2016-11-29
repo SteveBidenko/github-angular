@@ -1,23 +1,23 @@
 <!DOCTYPE html>
-<html lang="en-US" ng-app="app">
+<html lang="en-US">
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <link href="/libs/angular-material.min.css" rel="stylesheet" type="text/css"/>
     <link href="//fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
     <link href="/css/main.css" rel="stylesheet" type="text/css"/>
-    <title>My favorites on GitHub</title>
+    <title>My subscriptions on GitHub</title>
     <base href="/">
 </head>
 
-<body>
+<body ng-app="app" ng-cloak>
     <div class="wrapper">
-        <app>
+        <app layout="column">
             Loading...
         </app>
     </div>
     <div class="copyright">
-        <p class="title">Component Router</p>
+        <p class="title">My subscriptions on <a href="https://github.com">Github</a></p>
     </div>
     <!-- Third party libraries -->
     <script src="//cdnjs.cloudflare.com/ajax/libs/es6-shim/0.33.3/es6-shim.min.js"></script>

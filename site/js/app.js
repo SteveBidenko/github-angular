@@ -15,24 +15,22 @@
         .config(router)
         .run(run)
         .component('app', {
-            template: '<ng-outlet></ng-outlet>',
+            templateUrl: 'views/app.html',
+            controller: 'SearchController',
             $routeConfig: [
                 {path: '/', name: 'StartPage', component: 'startPage', useAsDefault: true},
-                {path: '/search/:who', name: 'Followers', component: 'followers'},
-                {path: '/profile/:id', name: 'Profile', component: 'profile'},
-                {path: '/repo/:owner/:id', name: 'Repositories', component: 'repositories'}
+                {path: '/search/...', name: 'Subscriptions', component: 'subscriptions'},
+                {path: '/profile/....', name: 'Profile', component: 'profile'}
             ]
         })
         .component('startPage', {
             templateUrl: 'views/nav.html',
-            controller: 'SearchController as sc',
             $routeConfig: [
                 {path: '/', name: 'StartPage', component: 'startPage', useAsDefault: true},
-                {path: '/:who', name: 'Followers', component: 'followers'}
             ]
         })
-        .component('followers', {
-            templateUrl: 'views/home.html',
+        .component('subscriptions', {
+            templateUrl: 'views/subscriptions.html',
             bindings: { $router: '<' },
             controller: 'GithubController as github'
         })
@@ -46,7 +44,10 @@
         })
         .component('repositories', {
             templateUrl: 'views/repository.html',
-            controller: 'RepositoryController as repository'
+            controller: 'RepositoryController as repository',
+            $routeConfig: [
+                {path: '/repo/:owner/:id', name: 'Repositories', component: 'repositories'}
+            ]
         });
 
     run.$inject = ['$rootScope', '$window'];
