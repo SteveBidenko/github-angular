@@ -7,22 +7,43 @@
     'use strict';
 
     angular
-        .module('Github', ['urls'])
+        .module('Github', ['Resources'])
         .service('github', github)
         .provider('$request', request);
 
     function request() {
         const EXPIRED_TIME = 3600000;
-        var recent = [], isStorage = typeof Storage !== 'undefined';
+        var recent = [], favorites = [], isStorage = typeof Storage !== 'undefined';
         return {
             init: function() {
-                if (isStorage && localStorage.recent) {
-                    recent = JSON.parse(localStorage.getItem('recent'));
+                if (isStorage) {
+                    if (localStorage.recent) {
+                        recent = JSON.parse(localStorage.getItem('recent'));
+                    }
+                    if (localStorage.favorites) {
+                        favorites = JSON.parse(localStorage.getItem('favorites'));
+                    }
                 }
-                console.info(recent, localStorage);
+                // console.info(recent, favorites, localStorage);
             },
-            $get: ['githubResources', '$http', function(githubResources, $http) {
+            $get: ['gitResources', '$http', function(gitResources, $http) {
                 return {
+                    /**
+                     * Get the recent array
+                     *
+                     * @return {Array}
+                     */
+                    recent: function() {
+                        return recent;
+                    },
+                    /**
+                     * Get the favorites array
+                     *
+                     * @return {Array}
+                     */
+                    favorites: function() {
+                        return favorites;
+                    },
                     /**
                      * Get data from the url
                      *
@@ -30,7 +51,7 @@
                      * @param {Function} callback
                      */
                     url: function (request, callback) {
-                        $http.get(githubResources.following(request)).success(callback);
+                        $http.get(gitResources.following(request)).success(callback);
                     },
                     /**
                      * Get the user's subscriptions
@@ -39,29 +60,24 @@
                      * @param {Function} callback
                      */
                     following: function(request, callback) {
-                        var timeStamp = Date.now(), idx = recent.indexOf(request),
-                            isRecently = idx >= 0,
-                            key = 'user_' + request, fromStorage;
+                        var timeStamp = Date.now(), key = 'subscriptions_' + request, fromStorage;
                         // Try to get from localStorage
-                        if (isRecently && isStorage && localStorage[key]) {
+                        if (isStorage && localStorage[key]) {
                             fromStorage = JSON.parse(localStorage.getItem(key));
-                            // Data is
+                            // Check if data is expired. If non expired then call callback with the data.
                             if (timeStamp - fromStorage.timeStamp < EXPIRED_TIME) {
                                 callback(fromStorage.data);
                                 return;
                             } else {
                                 localStorage.removeItem(key);
-                                recent.splice(idx, 1);
-                                localStorage.setItem('recent', JSON.stringify(recent));
                             }
                         }
                         // Try to get from the server
-                        $http.get(githubResources.following(request)).success(function (data) {
+                        $http.get(gitResources.following(request)).success(function (data) {
                             if (isStorage) {
                                 localStorage.setItem(key, JSON.stringify({timeStamp: timeStamp, data: data}));
-                                recent.push(request);
-                                localStorage.setItem('recent', JSON.stringify(recent));
                             }
+                            recentUpdate(request);
                             callback(data);
                         });
 
@@ -73,7 +89,25 @@
                      * @param {Function} callback
                      */
                     userInfo: function(request, callback) {
-                        $http.get(githubResources.repositories(request)).success(callback);
+                        var timeStamp = Date.now(), key = 'info_' + request, fromStorage;
+                        // Try to get from localStorage
+                        if (isStorage && localStorage[key]) {
+                            fromStorage = JSON.parse(localStorage.getItem(key));
+                            // Check if data is expired. If non expired then call callback with the data.
+                            if (timeStamp - fromStorage.timeStamp < EXPIRED_TIME) {
+                                callback(fromStorage.data);
+                                return;
+                            } else {
+                                localStorage.removeItem(key);
+                            }
+                        }
+                        $http.get(gitResources.repositories(request)).success(function(data) {
+                            if (isStorage) {
+                                localStorage.setItem(key, JSON.stringify({timeStamp: timeStamp, data: data}));
+                            }
+                            recentUpdate(request);
+                            callback(data);
+                        });
                     },
                     /**
                      * Get all the user's repositories
@@ -82,7 +116,25 @@
                      * @param {Function} callback
                      */
                     repositories: function(request, callback) {
-                        $http.get(githubResources.repositories(request)).success(callback);
+                        var timeStamp = Date.now(), key = 'repositories_' + request, fromStorage;
+                        // Try to get from localStorage
+                        if (isStorage && localStorage[key]) {
+                            fromStorage = JSON.parse(localStorage.getItem(key));
+                            // Check if data is expired. If non expired then call callback with the data.
+                            if (timeStamp - fromStorage.timeStamp < EXPIRED_TIME) {
+                                callback(fromStorage.data);
+                                return;
+                            } else {
+                                localStorage.removeItem(key);
+                            }
+                        }
+                        $http.get(gitResources.repositories(request)).success(function(data) {
+                            if (isStorage) {
+                                localStorage.setItem(key, JSON.stringify({timeStamp: timeStamp, data: data}));
+                            }
+                            recentUpdate(request);
+                            callback(data);
+                        });
                     },
                     /**
                      * Get info of the user's repository with the name
@@ -92,7 +144,7 @@
                      * @param {Function} callback
                      */
                     repository: function(user, name, callback) {
-                        $http.get(githubResources.repository(user, name)).success(callback);
+                        $http.get(gitResources.repository(user, name)).success(callback);
                     },
                     /**
                      * Get all the branches of the user's repository
@@ -102,7 +154,7 @@
                      * @param {Function} callback
                      */
                     branches: function(user, name, callback) {
-                        $http.get(githubResources.branches(user, name)).success(callback);
+                        $http.get(gitResources.branches(user, name)).success(callback);
                     },
                     /**
                      * Get all the commits of the user's repository
@@ -112,11 +164,22 @@
                      * @param {Function} callback
                      */
                     commits: function(user, name, callback) {
-
+                        $http.get(gitResources.commits(user, name)).success(callback);
                     }
                 };
             }]
         };
+        /**
+         * Analyze and update the recent array
+         *
+         * @param {String} request
+         */
+        function recentUpdate(request) {
+            if (recent.indexOf(request) < 0) {
+                recent.push(request);
+                localStorage.setItem('recent', JSON.stringify(recent));
+            }
+        }
     }
 
     github.$inject = ['$request'];
@@ -148,7 +211,7 @@
             $request.following(request, function (data) {
                 self.users = data;
                 self.isShowSearch = data.length == 0 ? true : self.isShowSearch;
-                console.log(data);
+                // console.log(data);
                 // data.forEach(function (currentUser, idx) {
                 //     $request.url(currentUser.url, function (info) {
                 //         self.users[idx].details = info;

@@ -5,7 +5,6 @@ body[ng-cloak] {
 body {
   margin: 0;
   & > div.wrapper {
-    padding: 10px;
     height: 95vh;
   }
 
@@ -28,6 +27,11 @@ app {
   > section {
     height: 100%;
   }
+}
+
+.user-info {
+  align-content: center;
+  justify-content: center;
 }
 
 .branch-group {

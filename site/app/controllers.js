@@ -7,36 +7,43 @@
     'use strict';
 
     angular
-        .module('controllers', ['Github', 'ngMaterial', 'ngMessages'])
+        .module('Controllers', ['Github', 'ngMaterial', 'ngMessages'])
         .controller('SearchController', SearchController)
         .controller('GithubController', GithubController)
         .controller('ProfileController', ProfileController)
         .controller('RepositoryController', RepositoryController);
 
-    SearchController.$inject = ['$location'];
+    SearchController.$inject = ['$scope', '$request', '$location'];
     /* @ngInject */
-    function SearchController($location) {
-        var mv = this;
+    function SearchController($scope, $request, $location) {
+        var $ctrl = this;
 
-        mv.isShowResults = false;
-        mv.backButtonShow = false;
-        console.log(mv);
+        $ctrl.subscription = '';
+        $ctrl.isShowResults = false;
+        $ctrl.backButtonShow = false;
+        $scope.recent = $request.recent();
+        $scope.favorites = $request.favorites();
 
-        mv.newSearch = function (request) {
-            console.log(request);
-            mv.backButtonShow = true;
-            mv.isShowResults = true;
+        $ctrl.newSearch = function (request) {
+            $ctrl.subscription = request;
+            $ctrl.backButtonShow = true;
+            $ctrl.isShowResults = true;
             $location.path('/search/' + request);
         };
 
-        mv.back = function() {
+        $ctrl.back = function() {
             console.log('back is pressed');
             $location.path('/');
         };
 
-        mv.$routerOnActivate = function(next) {
+        $ctrl.$routerOnActivate = function(next) {
             console.log('SearchController $routerOnActivate', next);
         };
+
+        $scope.clickList = function(event) {
+            console.log(event);
+        };
+        console.log($scope, $ctrl);
     }
 
     GithubController.$inject = ['$rootScope', '$location', 'github'];

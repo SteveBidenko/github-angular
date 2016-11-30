@@ -1,26 +1,35 @@
-<md-toolbar layout-padding class="md-medium-tall">
-    <form name="searchForm" ng-submit="searchForm.$valid && mv.newSearch(searchQuery)" novalidate layout="row">
+<md-toolbar layout-padding class="md-medium-tall" layout="row">
+    <form name="searchForm" ng-submit="searchForm.$valid && $ctrl.newSearch(searchQuery)" novalidate layout="row">
         <md-input-container class="md-block">
             <label>Github User</label>
             <input ng-model="searchQuery" type="text" required/>
         </md-input-container>
         <md-button class="md-raised" type="submit">Search</md-button>
-        <md-button class="md-raised" ng-if="mv.backButtonShow" ng-click="mv.back()">Back</md-button>
+        <md-button class="md-raised" ng-if="$ctrl.backButtonShow" ng-click="$ctrl.back()">Back</md-button>
     </form>
+    <div class="user-info" flex>
+        <p>{{ $ctrl.subscription }}</p>
+    </div>
 </md-toolbar>
 <section layout="row">
-    <md-sidenav class="md-sidenav-left" md-component-id="left" md-is-locked-open="$mdMedia('gt-md')" layout="column">
-        <md-content class="favorites" flex="70">
-            <h3>My favorites</h3>
-            <md-list></md-list>
+    <md-sidenav class="md-sidenav-left" md-component-id="left" md-is-locked-open="$mdMedia('gt-sm')" layout="column">
+        <md-content class="favorites" flex="60">
+            <md-subheader>My favorites</md-subheader>
+            <md-list>
+                <md-list-item ng-repeat="user in favorites" ng-bind="user" ng-click="clickList($event)" aria-label="{{ ::user }}">
+                </md-list-item>
+            </md-list>
         </md-content>
         <md-content class="recent" flex>
-            <h3>Recent</h3>
-            <md-list></md-list>
+            <md-subheader>Recent</md-subheader>
+            <md-list>
+                <md-list-item ng-repeat="user in recent" ng-bind="user" ng-click="clickList($event)" aria-label="{{ ::user }}">
+                </md-list-item>
+            </md-list>
         </md-content>
     </md-sidenav>
-    <md-content>
-        <h3>Workshop</h3>
+    <md-content layout-fill>
+        <md-subheader>Workshop</md-subheader>
         <ng-outlet></ng-outlet>
     <md-content>
 </section>

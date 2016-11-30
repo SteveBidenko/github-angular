@@ -7,12 +7,15 @@
     'use strict';
 
     angular
-        .module('urls', ['app'])
-        .factory('githubResources', githubResources);
+        .module('Resources', [])
+        .constant('githubSite', {
+            url: 'https://api.github.com/'
+        })
+        .factory('gitResources', gitResources);
 
-    githubResources.$inject = ['githubSite'];
+    gitResources.$inject = ['githubSite'];
     /* @ngInject */
-    function githubResources(githubSite) {
+    function gitResources(githubSite) {
         var users = githubSite.url + 'users/';
         // return the factory
         return {

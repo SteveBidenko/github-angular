@@ -7,16 +7,13 @@
     'use strict';
 
     angular
-        .module('app', ['ngComponentRouter', 'ngMaterial', 'Github', 'controllers', 'ngAnimate'])
-        .constant('githubSite', {
-            url: 'https://api.github.com/'
-        })
+        .module('app', ['ngComponentRouter', 'ngMaterial', 'Github', 'Controllers', 'ngAnimate'])
         .value('$routerRootComponent', 'app')
         .config(config)
         .run(run)
         .component('app', {
-            templateUrl: 'app/views/app.html',
-            controller: 'SearchController as mv',
+            templateUrl: '/app/views/app.html',
+            controller: 'SearchController as $ctrl',
             $routeConfig: [
                 {path: '/', name: 'StartPage', component: 'startPage', useAsDefault: true},
                 {path: '/search/...', name: 'Subscriptions', component: 'subscriptions'},
@@ -24,14 +21,14 @@
             ]
         })
         .component('startPage', {
-            templateUrl: 'app/views/nav.html',
+            templateUrl: '/app/views/nav.html',
             $routeConfig: [
                 {path: '/', name: 'StartPage', component: 'startPage', useAsDefault: true},
                 {path: '/:who', name: 'Subscriptions', component: 'subscriptions'}
             ]
         })
         .component('subscriptions', {
-            templateUrl: 'app/views/subscriptions.html',
+            templateUrl: '/app/views/subscriptions.html',
             bindings: { $router: '<' },
             controller: 'GithubController as github',
             $routeConfig: [
@@ -40,7 +37,7 @@
             ]
         })
         .component('profile', {
-            templateUrl: 'app/views/profile.html',
+            templateUrl: '/app/views/profile.html',
             controller: 'ProfileController as profile',
             $routeConfig: [
                 {path: '/', name: 'StartPage', component: 'startPage', useAsDefault: true},
@@ -48,7 +45,7 @@
             ]
         })
         .component('repositories', {
-            templateUrl: 'app/views/repository.html',
+            templateUrl: '/app/views/repository.html',
             controller: 'RepositoryController as repository',
             $routeConfig: [
                 {path: '/repo/:owner/:id', name: 'Repositories', component: 'repositories'}
@@ -68,7 +65,7 @@
     config.$inject = ['$locationProvider', '$mdThemingProvider', '$requestProvider'];
     /* @ngInject */
     /**
-     * Set the app configuration (component routing, theme, etc.)
+     * Setup the app configuration (component routing, theme, etc.)
      *
      * @param {Object} $locationProvider
      * @param {Object} $mdThemingProvider
