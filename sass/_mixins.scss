@@ -1,0 +1,5 @@
+@mixin md-icon($size) {
+  font-size: $size;
+  height: $size;
+  width: $size;
+}

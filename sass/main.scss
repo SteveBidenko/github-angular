@@ -1,3 +1,5 @@
+@import '_mixins';
+
 body[ng-cloak] {
   display:none;
 }
@@ -29,9 +31,11 @@ app {
   }
 }
 
-.user-info {
-  align-content: center;
-  justify-content: center;
+md-icon[aria-label='Favorite'] {
+  cursor: pointer;
+  &.favorite {
+    color: red;
+  }
 }
 
 .branch-group {
@@ -101,4 +105,12 @@ md-list-item.contact-repo {
 
 img.img-responsive {
   width: 230px;
+}
+
+.md-36 {
+  @include md-icon(36px);
+}
+
+.md-48 {
+  @include md-icon(48px);
 }
