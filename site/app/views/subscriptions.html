@@ -1,7 +1,7 @@
 <md-content>
     <md-list>
         <md-list-item ng-repeat="user in github.info.users" ng-animate-ref="{{ ::user.login }}">
-            <a class="md-list-item-text" ng-href="#/profile/{{ ::user.login }}" layout="row"
+            <a class="md-list-item-text" ng-href="/profile/{{ ::user.login }}" layout="row"
                layout-align="center center">
                 <img class="md-avatar" ng-src="{{ ::user.details.avatar_url }}" width="42" alt="Avatar"/>
                 <b ng-bind="user.details.login"></b>
@@ -9,7 +9,7 @@
             </a>
             <md-divider ng-if="!$last"></md-divider>
         </md-list-item>
-        <div ng-if="!github.info.users.length">
+        <div ng-if="!isShowResults">
             <i>No results found...</i>
         </div>
     </md-list>

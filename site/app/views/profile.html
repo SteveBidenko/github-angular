@@ -16,7 +16,7 @@
             <md-list-item class="md-1-line contact-item contact-repo" ng-repeat="repo in profile.info.repositories"
                           ng-if="profile.info.repositories.length" layout="row" layout-wrap>
                 <div class="md-list-item-text compact" flex>
-                    <a ng-href="#/repo/{{ ::profile.login }}/{{ ::repo.name }}" ng-bind="repo.name"></a>
+                    <a ng-href="/repo/{{ ::profile.login }}/{{ ::repo.name }}" ng-bind="repo.name"></a>
                 </div>
             </md-list-item>
             <md-list-item ng-if="!profile.info.repositories.length">
