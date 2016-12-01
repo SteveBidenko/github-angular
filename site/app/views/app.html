@@ -7,8 +7,15 @@
         <md-button class="md-raised" type="submit">Search</md-button>
         <md-button class="md-raised" ng-if="$ctrl.backButtonShow" ng-click="$ctrl.back()">Back</md-button>
     </form>
-    <div class="user-info" flex>
+    <div layout="row" layout-align="start center" flex>
         <p>{{ $ctrl.subscription }}</p>
+    </div>
+    <div layout="column" layout-align="center none">
+        <md-icon md-font-set="material-icons" aria-label="Favorite" class="md-36"
+                 ng-class="{favorite: $ctrl.isFavorited($ctrl.subscription)}"
+                 ng-click="$ctrl.toFavorite($ctrl.subscription)">
+            favorite
+        </md-icon>
     </div>
 </md-toolbar>
 <section layout="row">

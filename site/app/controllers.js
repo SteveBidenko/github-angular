@@ -31,42 +31,53 @@
             $location.path('/search/' + request);
         };
 
+        $ctrl.isFavorited = function (request) {
+            return request ? $request.isFavorite(request) : false;
+        };
+
+        $ctrl.toFavorite = function (request) {
+            if (request) {
+                if ($request.isFavorite(request)) {
+                    $request.rmFavorite(request);
+                } else {
+                    $request.toFavorite(request);
+                }
+            }
+            console.log('toFavorite', request);
+        };
+
         $ctrl.back = function() {
             console.log('back is pressed');
             $location.path('/');
         };
 
-        $ctrl.$routerOnActivate = function(next) {
-            console.log('SearchController $routerOnActivate', next);
+        // console.log($scope, $ctrl);
+    }
+
+    GithubController.$inject = ['$scope', 'github'];
+    /* @ngInject */
+    function GithubController($scope, github) {
+        var mv = this;
+        mv.info = [];
+        github.isShowSearch = false;
+        $scope.backButtonShow = false;
+        $scope.searchQuery = '';
+        $scope.isShowResults = false;
+
+        this.$routerOnActivate = function(next) {
+            if (next.params.who) {
+                console.log('GithubController $routerOnActivate', next);
+                $scope.searchQuery = next.params.who;
+                mv.info = github.search(next.params.who);
+                $scope.isShowResults = true;
+            }
+            // $scope.location = $location;
         };
 
         $scope.clickList = function(event) {
             console.log(event);
         };
-        console.log($scope, $ctrl);
-    }
-
-    GithubController.$inject = ['$rootScope', '$location', 'github'];
-    /* @ngInject */
-    function GithubController($rootScope, $location, github) {
-        var mv = this;
-        mv.info = [];
-        github.isShowSearch = false;
-
-        this.$routerOnActivate = function(next) {
-            console.log('GithubController $routerOnActivate', next);
-            if (next.params.who) {
-                $rootScope.searchQuery = next.params.who;
-                mv.info = github.search(next.params.who);
-                $rootScope.isShowResults = true;
-            } else {
-                $rootScope.backButtonShow = false;
-                $rootScope.searchQuery = '';
-                $rootScope.isShowResults = false;
-            }
-            $rootScope.location = $location;
-        };
-
+        console.log($scope, mv);
     }
 
     ProfileController.$inject = ['$rootScope', '$routeParams', 'github'];
