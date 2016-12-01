@@ -1,6 +1,6 @@
 // Load required modules
 var http    = require('http'),         // http server core module
-    port    = 8080,
+    port    = process.env.PORT || 8080,
     timeNow = new Date().toLocaleString('en-US', {hour12: false, timeZone: 'Europe/Kiev'}),
     express = require('express'),       // web framework external module
     fs = require('fs'),
