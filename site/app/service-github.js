@@ -44,6 +44,30 @@
                     favorites: function() {
                         return favorites;
                     },
+                    isFavorite: isFavorite,
+                    /**
+                     * Add the request to the favorites array
+                     *
+                     * @param {String} request
+                     */
+                    toFavorite: function(request) {
+                        if (!isFavorite(request)) {
+                            favorites.push(request);
+                            localStorage.setItem('favorites', JSON.stringify(favorites));
+                        }
+                    },
+                    /**
+                     * Remove the request from the favorites array if it's exist there
+                     *
+                     * @param {String} request
+                     */
+                    rmFavorite: function(request) {
+                        var idx = favorites.indexOf(request);
+                        if (idx >= 0) {
+                            favorites.splice(idx, 1);
+                            localStorage.setItem('favorites', JSON.stringify(favorites));
+                        }
+                    },
                     /**
                      * Get data from the url
                      *
@@ -101,11 +125,10 @@
                                 localStorage.removeItem(key);
                             }
                         }
-                        $http.get(gitResources.repositories(request)).success(function(data) {
+                        $http.get(gitResources.userInfo(request)).success(function(data) {
                             if (isStorage) {
                                 localStorage.setItem(key, JSON.stringify({timeStamp: timeStamp, data: data}));
                             }
-                            recentUpdate(request);
                             callback(data);
                         });
                     },
@@ -132,7 +155,6 @@
                             if (isStorage) {
                                 localStorage.setItem(key, JSON.stringify({timeStamp: timeStamp, data: data}));
                             }
-                            recentUpdate(request);
                             callback(data);
                         });
                     },
@@ -170,6 +192,15 @@
             }]
         };
         /**
+         * Check if the request is in the favorites array
+         *
+         * @param {String} request
+         * @return {boolean}
+         */
+        function isFavorite(request) {
+            return favorites.indexOf(request) >= 0;
+        }
+        /**
          * Analyze and update the recent array
          *
          * @param {String} request
@@ -206,19 +237,22 @@
         self.repository = repository;
         return self;
 
-        function search(request) {
+        function search(request, callback) {
             self.users = [];
             $request.following(request, function (data) {
                 self.users = data;
                 self.isShowSearch = data.length == 0 ? true : self.isShowSearch;
                 // console.log(data);
-                // data.forEach(function (currentUser, idx) {
-                //     $request.url(currentUser.url, function (info) {
-                //         self.users[idx].details = info;
-                //         self.detailSearch[info.login] = info;
-                //         self.isShowSearch = idx == self.users.length - 1 ? true : self.isShowSearch;
-                //     });
-                // });
+                data.forEach(function (currentUser, idx) {
+                    $request.userInfo(currentUser.login, function (info) {
+                        self.users[idx].details = info;
+                        self.detailSearch[info.login] = info;
+                        self.isShowSearch = idx == self.users.length - 1 ? true : self.isShowSearch;
+                    });
+                });
+                if (typeof callback === 'function') {
+                    callback(self.users);
+                }
             });
             return self;
         }
