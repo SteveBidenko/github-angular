@@ -52,7 +52,7 @@
          * @returns {string}
          */
         function repositories(user) {
-            return userInfo(user) + '/repositories';
+            return userInfo(user) + '/repos';
         }
         /**
          * Get user repository url
@@ -62,7 +62,7 @@
          * @returns {string}
          */
         function repository(user, name) {
-            return githubSite.url + 'repositories/' + user + '/' + name;
+            return githubSite.url + 'repos/' + user + '/' + name;
         }
         /**
          * Get branches' url of the user repository

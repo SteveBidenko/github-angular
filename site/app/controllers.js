@@ -81,26 +81,31 @@
         // console.log($scope, mv);
     }
 
-    ProfileController.$inject = ['github'];
+    ProfileController.$inject = ['$scope', 'github'];
     /* @ngInject */
-    function ProfileController(github) {
+    function ProfileController($scope, github) {
         var mv = this;
 
         this.$routerOnActivate = function(next) {
             mv.login = next.params.id;
             mv.info = github.profile(next.params.id);
-            console.log(next.params);
         };
+        // console.log($scope, this);
     }
 
-    RepositoryController.$inject = ['$rootScope', '$routeParams', 'github', '$log'];
+    RepositoryController.$inject = ['github', '$log'];
     /* @ngInject */
-    function RepositoryController($rootScope, $routeParams, github) {
+    function RepositoryController(github, $log) {
         var mv = this;
+        mv.info = [];
 
-        mv.info = github.repository($routeParams.owner, $routeParams.id);
-        $rootScope.backButtonShow = github.isShowProfile;
-        mv.owner = github.profile($routeParams.owner);
+        this.$routerOnActivate = function(next) {
+            mv.info = github.repository(next.params.owner, next.params.id);
+            mv.backButtonShow = github.isShowProfile;
+            mv.owner = github.profile(next.params.owner);
+            $log.log(next.params);
+        };
+
         mv.title = function() {
             var owner = mv.owner.detailProfile.login ? mv.owner.detailProfile.login : mv.info.owner;
             return owner + ' / ' + mv.info.detailRepository.name;
