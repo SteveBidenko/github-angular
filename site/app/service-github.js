@@ -231,7 +231,7 @@
         self.commits = [];
         self.isShowCommits = false;
         self.isShowProfile = false;
-        self.isShowSearch = false;
+        self.readyToShowResults = false;
         self.search = search;
         self.profile = profile;
         self.repository = repository;
@@ -241,13 +241,13 @@
             self.users = [];
             $request.following(request, function (data) {
                 self.users = data;
-                self.isShowSearch = data.length == 0 ? true : self.isShowSearch;
+                self.readyToShowResults = data.length == 0 ? true : self.readyToShowResults;
                 // console.log(data);
                 data.forEach(function (currentUser, idx) {
                     $request.userInfo(currentUser.login, function (info) {
                         self.users[idx].details = info;
                         self.detailSearch[info.login] = info;
-                        self.isShowSearch = idx == self.users.length - 1 ? true : self.isShowSearch;
+                        self.readyToShowResults = idx == self.users.length - 1 ? true : self.readyToShowResults;
                     });
                 });
                 if (typeof callback === 'function') {

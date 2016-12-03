@@ -40,12 +40,12 @@
         .component('subList', {
             templateUrl: '/app/views/subList.html',
             bindings: { $router: '<' },
-            controller: 'GithubController as github'
+            controller: 'GithubController'
         })
         .component('detail', {
             templateUrl: '/app/views/profile.html',
             bindings: { $router: '<' },
-            controller: 'ProfileController as profile'
+            controller: 'ProfileController'
         })
         .component('repositories', {
             templateUrl: '/app/views/repository.html',
