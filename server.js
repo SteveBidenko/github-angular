@@ -9,7 +9,7 @@ var http    = require('http'),         // http server core module
 // Setup and configure Express http server. Expect a subfolder called 'site' to be the web root.
 httpApp.use(express.static(__dirname + '/site/'));
 
-httpApp.get(['/search/*', '/profile/*', '/repo/*'], function(req, res){
+httpApp.get(['/following*', '/following/*', '/profile*', '/profile/*', '/repo*', 'repo/*'], function(req, res) {
     res.sendFile(__dirname + '/site/index.html');
 });
 
