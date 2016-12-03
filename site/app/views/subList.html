@@ -1,3 +1,4 @@
+<md-subheader>Following list</md-subheader>
 <md-content>
     <md-list>
         <md-list-item ng-repeat="user in github.info.users" ng-animate-ref="{{ ::user.login }}">
@@ -9,7 +10,7 @@
             </a>
             <md-divider ng-if="!$last"></md-divider>
         </md-list-item>
-        <div ng-if="!isShowResults">
+        <div ng-if="github.showNoResults()">
             <i>No results found...</i>
         </div>
     </md-list>

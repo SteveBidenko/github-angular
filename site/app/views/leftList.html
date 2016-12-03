@@ -1,0 +1,8 @@
+<md-content ng-class="$ctrl.class">
+    <md-subheader>{{ ::$ctrl.name }}</md-subheader>
+    <md-list>
+        <md-list-item ng-repeat="user in $ctrl.type" aria-label="{{ ::user }}">
+            <a href="/following/{{ ::user }}"><strong ng-bind="user"></strong></a>
+        </md-list-item>
+    </md-list>
+</md-content>
