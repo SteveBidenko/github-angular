@@ -13,11 +13,11 @@
         .run(run)
         .component('app', {
             templateUrl: '/app/views/app.html',
-            controller: 'SearchController as $ctrl',
+            controller: 'SearchController',
             $routeConfig: [
                 {path: '/following/...', name: 'Subscriptions', component: 'subscriptions'},
-                {path: '/profile/....', name: 'Profile', component: 'profile'},
-                {path: '/repo/....', name: 'Repositories', component: 'repositories'}
+                {path: '/profile/...', name: 'Profiles', component: 'profiles'},
+                {path: '/repository/...', name: 'Repositories', component: 'repositories'}
             ]
         })
         .component('subscriptions', {
@@ -27,11 +27,18 @@
                 {path: '/:who', name: 'SubList', component: 'subList'}
             ]
         })
-        .component('profile', {
+        .component('profiles', {
             template: '<ng-outlet></ng-outlet>',
             $routeConfig: [
                 {path: '/', name: 'EmptyParam', component: 'emptyParam', useAsDefault: true},
-                {path: '/:who', name: 'Detail', component: 'detail'}
+                {path: '/:id', name: 'Profile', component: 'profile'}
+            ]
+        })
+        .component('repositories', {
+            template: '<ng-outlet></ng-outlet>',
+            $routeConfig: [
+                {path: '/', name: 'EmptyParam', component: 'emptyParam', useAsDefault: true},
+                {path: '/:owner/:id', name: 'Repository', component: 'repository'}
             ]
         })
         .component('emptyParam', {
@@ -42,17 +49,15 @@
             bindings: { $router: '<' },
             controller: 'GithubController'
         })
-        .component('detail', {
+        .component('profile', {
             templateUrl: '/app/views/profile.html',
             bindings: { $router: '<' },
             controller: 'ProfileController'
         })
-        .component('repositories', {
+        .component('repository', {
             templateUrl: '/app/views/repository.html',
-            controller: 'RepositoryController as repository'
-            // $routeConfig: [
-            //     {path: '/repo/:owner/:id', name: 'Repositories', component: 'repositories'}
-            // ]
+            bindings: { $router: '<' },
+            controller: 'RepositoryController'
         }).component('leftList', {
             templateUrl: '/app/views/leftList.html',
             bindings: {type: '<'},
@@ -60,6 +65,9 @@
                 this.name = $attrs.name;
                 this.class = $attrs.type;
             }
+        }).component('userInfo', {
+            templateUrl: '/app/views/userInfo.html',
+            bindings: {profile: '<'}
         });
 
     run.$inject = ['$window'];

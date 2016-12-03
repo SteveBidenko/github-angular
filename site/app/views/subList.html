@@ -1,5 +1,5 @@
 <md-subheader>Following list</md-subheader>
-<md-content ng-cloak>
+<md-content layout-padding ng-cloak>
     <md-list ng-if="$ctrl.readyToShowResults">
         <md-list-item ng-repeat="user in $ctrl.info.users" ng-animate-ref="{{ ::user.login }}">
             <a class="md-list-item-text" ng-href="/profile/{{ ::user.login }}" layout="row"

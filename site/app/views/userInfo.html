@@ -1,0 +1,13 @@
+<md-subheader>Details</md-subheader>
+<md-content layout="row" layout-align="start center" layout-padding>
+    <div>
+        <img class="md-avatar" ng-src="{{ $ctrl.profile.avatar_url }}" alt="Full avatar" width="75" />
+    </div>
+    <div flex>
+        Login: <b ng-bind="$ctrl.profile.login"></b><br/>
+        Name: <b>{{ $ctrl.profile.name ? $ctrl.profile.name : '-' }}</b><br/>
+        <span ng-if="$ctrl.profile.email">
+            Mail: <span ng-bind="$ctrl.profile.email"></span>
+        </span>
+    </div>
+</md-content>
