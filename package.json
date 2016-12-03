@@ -7,6 +7,7 @@
     "node": ">=5.4.0"
   },
   "dependencies": {
+    "cli-color": "^1.1.0",
     "express": "~4.13.3",
     "gulp": "^3.9.0",
     "gulp-clean": "^0.3.2",
@@ -36,7 +37,9 @@
     "name": "Steve Bidenko",
     "email": "steve.bidenko@gmail.com"
   },
-  "contributors": ["Steve Bidenko"],
+  "contributors": [
+    "Steve Bidenko"
+  ],
   "bugs": {
     "url": "https://github.com/SteveBidenko/github-angular/issues",
     "email": "steve.bidenko@gmail.com"
