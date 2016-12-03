@@ -35,7 +35,7 @@
             return request ? $request.isFavorite(request) : false;
         };
 
-        $ctrl.toFavorite = function (request) {
+        $ctrl.switchFavorite = function (request) {
             if (request) {
                 if ($request.isFavorite(request)) {
                     $request.rmFavorite(request);
@@ -59,25 +59,24 @@
     function GithubController($scope, github) {
         var mv = this;
         mv.info = [];
-        github.isShowSearch = false;
+        github.readyToShowResults = false;
         $scope.backButtonShow = false;
         $scope.searchQuery = '';
-        $scope.isShowResults = false;
 
         this.$routerOnActivate = function(next) {
             if (next.params.who) {
                 console.log('GithubController $routerOnActivate', next);
                 $scope.searchQuery = next.params.who;
                 mv.info = github.search(next.params.who);
-                $scope.isShowResults = true;
             }
             // $scope.location = $location;
         };
 
-        $scope.clickList = function(event) {
-            console.log(event);
+        this.showNoResults = function() {
+            // console.log(github.readyToShowResults, mv.info.users);
+            return !(github.readyToShowResults && mv.info.users && mv.info.users.length > 0);
         };
-        console.log($scope, mv);
+        // console.log($scope, mv);
     }
 
     ProfileController.$inject = ['$rootScope', '$routeParams', 'github'];
@@ -85,7 +84,7 @@
     function ProfileController($rootScope, $routeParams, github) {
         var mv = this;
 
-        $rootScope.backButtonShow = github.isShowSearch;
+        $rootScope.backButtonShow = github.readyToShowResults;
         mv.login = $routeParams.id;
         mv.info = github.profile($routeParams.id);
     }

@@ -15,41 +15,51 @@
             templateUrl: '/app/views/app.html',
             controller: 'SearchController as $ctrl',
             $routeConfig: [
-                {path: '/', name: 'StartPage', component: 'startPage', useAsDefault: true},
-                {path: '/search/...', name: 'Subscriptions', component: 'subscriptions'},
-                {path: '/profile/....', name: 'Profile', component: 'profile'}
-            ]
-        })
-        .component('startPage', {
-            templateUrl: '/app/views/nav.html',
-            $routeConfig: [
-                {path: '/', name: 'StartPage', component: 'startPage', useAsDefault: true},
-                {path: '/:who', name: 'Subscriptions', component: 'subscriptions'}
+                {path: '/following/...', name: 'Subscriptions', component: 'subscriptions'},
+                {path: '/profile/....', name: 'Profile', component: 'profile'},
+                {path: '/repo/....', name: 'Repositories', component: 'repositories'}
             ]
         })
         .component('subscriptions', {
-            templateUrl: '/app/views/subscriptions.html',
-            bindings: { $router: '<' },
-            controller: 'GithubController as github',
+            template: '<ng-outlet></ng-outlet>',
             $routeConfig: [
-                {path: '/', name: 'StartPage', component: 'startPage', useAsDefault: true},
-                {path: '/:who', name: 'Subscriptions', component: 'subscriptions'}
+                {path: '/', name: 'EmptyParam', component: 'emptyParam', useAsDefault: true},
+                {path: '/:who', name: 'SubList', component: 'subList'}
             ]
         })
         .component('profile', {
-            templateUrl: '/app/views/profile.html',
-            controller: 'ProfileController as profile',
+            template: '<ng-outlet></ng-outlet>',
             $routeConfig: [
-                {path: '/', name: 'StartPage', component: 'startPage', useAsDefault: true},
-                {path: '/:who', name: 'Followers', component: 'followers'}
+                {path: '/', name: 'EmptyParam', component: 'emptyParam', useAsDefault: true},
+                {path: '/:who', name: 'Detail', component: 'detail'}
             ]
+        })
+        .component('emptyParam', {
+            template: '<md-subheader>Empty params!</md-subheader>'
+        })
+        .component('subList', {
+            templateUrl: '/app/views/subList.html',
+            bindings: { $router: '<' },
+            controller: 'GithubController as github'
+        })
+        .component('detail', {
+            templateUrl: '/app/views/profile.html',
+            bindings: { $router: '<' },
+            controller: 'ProfileController as profile'
         })
         .component('repositories', {
             templateUrl: '/app/views/repository.html',
-            controller: 'RepositoryController as repository',
-            $routeConfig: [
-                {path: '/repo/:owner/:id', name: 'Repositories', component: 'repositories'}
-            ]
+            controller: 'RepositoryController as repository'
+            // $routeConfig: [
+            //     {path: '/repo/:owner/:id', name: 'Repositories', component: 'repositories'}
+            // ]
+        }).component('leftList', {
+            templateUrl: '/app/views/leftList.html',
+            bindings: {type: '<'},
+            controller: function ($scope, $element, $attrs) {
+                this.name = $attrs.name;
+                this.class = $attrs.type;
+            }
         });
 
     run.$inject = ['$window'];
