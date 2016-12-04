@@ -187,6 +187,15 @@
                      */
                     commits: function(user, name, callback) {
                         $http.get(gitResources.commits(user, name)).success(callback);
+                    },
+                    /**
+                     * Get user's activity (svg)
+                     *
+                     * @param {String} user
+                     * @param {Function} callback
+                     */
+                    activity: function(user, callback) {
+                        $http.post('/activity', {user: user}).success(callback);
                     }
                 };
             }]
@@ -235,6 +244,7 @@
         self.search = search;
         self.profile = profile;
         self.repository = repository;
+        self.activity = activity;
         return self;
 
         function search(request, callback) {
@@ -294,6 +304,21 @@
                 self.isShowCommits = true;
             });
             return self;
+        }
+
+        function activity(user, callback) {
+            var isCallback = typeof callback === 'function';
+            if (!user) {
+                if (isCallback) {
+                    callback(null);
+                }
+                return;
+            }
+            $request.activity(user, function(data) {
+                if (isCallback) {
+                    callback(data);
+                }
+            })
         }
     }
 })();

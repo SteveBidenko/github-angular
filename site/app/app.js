@@ -58,16 +58,33 @@
             templateUrl: '/app/views/repository.html',
             bindings: { $router: '<' },
             controller: 'RepositoryController'
-        }).component('leftList', {
+        })
+        .component('leftList', {
             templateUrl: '/app/views/leftList.html',
             bindings: {type: '<'},
             controller: function ($scope, $element, $attrs) {
                 this.name = $attrs.name;
                 this.class = $attrs.type;
             }
-        }).component('userInfo', {
+        })
+        .component('userInfo', {
             templateUrl: '/app/views/userInfo.html',
             bindings: {profile: '<'}
+        })
+        .component('userActivity', {
+            template: '<div class="activity" ng-bind-html="$ctrl.svg"></div>',
+            bindings: {login: '<'},
+            controller: ['$scope', '$sce', '$request', function($scope, $sce, $request) {
+                var ua = this;
+                ua.svg = '';
+                $scope.$watch('ua.login', function () {
+                    if (ua.login) {
+                        $request.activity(ua.login, function(data) {
+                            ua.svg = $sce.trustAsHtml(data);
+                        });
+                    }
+                });
+            }]
         });
 
     run.$inject = ['$window'];
@@ -93,7 +110,7 @@
         $locationProvider.html5Mode(true);
         // Set theme
         $mdThemingProvider.theme('default')
-            .primaryPalette('blue');
+            .primaryPalette('green');
         $requestProvider.init();
     }
 })();

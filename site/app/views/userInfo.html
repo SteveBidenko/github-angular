@@ -1,7 +1,7 @@
 <md-subheader>Details</md-subheader>
 <md-content layout="row" layout-align="start center" layout-padding>
     <div>
-        <img class="md-avatar" ng-src="{{ $ctrl.profile.avatar_url }}" alt="Full avatar" width="75" />
+        <img class="md-avatar" ng-src="{{ $ctrl.profile.avatar_url }}" alt="Full avatar" width="100" />
     </div>
     <div flex>
         Login: <b ng-bind="$ctrl.profile.login"></b><br/>
@@ -10,4 +10,5 @@
             Mail: <span ng-bind="$ctrl.profile.email"></span>
         </span>
     </div>
+    <user-activity login="$ctrl.profile.login" hide show-gt-sm></user-activity>
 </md-content>

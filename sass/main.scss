@@ -38,6 +38,12 @@ md-icon[aria-label='Favorite'] {
   }
 }
 
+div.activity > svg {
+  & text {
+    font-family: monospace;
+    font-size: medium;
+  }
+}
 .branch-group {
   border: 1px solid #ddd;
   border-radius: 3px
