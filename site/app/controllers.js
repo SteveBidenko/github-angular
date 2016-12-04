@@ -28,7 +28,7 @@
             $ctrl.subscription = request;
             $ctrl.backButtonShow = true;
             $ctrl.isShowResults = true;
-            $location.path('/search/' + request);
+            $location.path('/profile/' + request);
         };
 
         $ctrl.isFavorited = function (request) {
