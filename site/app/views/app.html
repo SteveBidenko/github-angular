@@ -1,27 +1,43 @@
-<md-toolbar layout-padding class="md-medium-tall" layout="row">
-    <form name="searchForm" ng-submit="searchForm.$valid && $ctrl.newSearch(searchQuery)" novalidate layout="row">
-        <md-input-container class="md-block">
-            <label>Github User</label>
-            <input ng-model="searchQuery" type="text" required/>
-        </md-input-container>
-        <md-button class="md-raised" type="submit">Search</md-button>
-        <md-button class="md-raised" ng-if="$ctrl.backButtonShow" ng-click="$ctrl.back()">Back</md-button>
-    </form>
-    <div layout="row" layout-align="start center" flex>
-        <p>{{ $ctrl.subscription }}</p>
-    </div>
-    <div layout="column" layout-align="center none">
-        <md-icon md-font-set="material-icons" aria-label="Favorite" class="md-36"
-                 ng-class="{favorite: $ctrl.isFavorited($ctrl.subscription)}"
-                 ng-click="$ctrl.switchFavorite($ctrl.subscription)">
-            favorite
-        </md-icon>
-    </div>
-</md-toolbar>
-<section layout="row">
-    <md-sidenav class="md-sidenav-left" md-component-id="left" md-is-locked-open="$mdMedia('gt-sm')" layout="column">
-        <left-list type="favorites" name="My favorites" flex="60"></left-list>
-        <left-list type="recent" name="Recent list" flex></left-list>
-    </md-sidenav>
-    <ng-outlet layout-fill></ng-outlet>
+<md-sidenav class="md-sidenav-left" md-component-id="left" md-is-locked-open="$mdMedia('gt-md')" layout="column">
+    <left-list type="favorites" name="My favorites" flex="60"></left-list>
+    <left-list type="recent" name="Recent list" flex></left-list>
+</md-sidenav>
+<section layout="column" role="main" flex>
+    <md-toolbar layout="row">
+        <div class="md-toolbar-tools">
+            <md-icon-button ng-click="toggleSidenav('left')" hide-gt-md aria-label="Menu">
+                <md-icon md-font-set="material-icons" aria-label="Help">menu</md-icon>
+            </md-icon-button>
+            <div layout="row" layout-align="center center" flex>
+                <span ng-bind="github.login"></span>
+            </div>
+        </div>
+        <div layout="row">
+            <md-input-container class="searchContainer">
+                <label>Github User</label>
+                <input ng-model="searchQuery" type="text" required/>
+            </md-input-container>
+            <md-icon-button aria-label="Search" ng-click="newSearch(searchQuery)" layout="start center">
+                <md-icon md-font-set="material-icons" aria-label="Search">search</md-icon>
+            </md-icon-button>
+            <!--<md-button class="md-raised" ng-if="$ctrl.backButtonShow" ng-click="$ctrl.back()">Back</md-button>-->
+        </div>
+    </md-toolbar>
+    <md-tabs md-selected="selectedIndex" md-dynamic-height md-border-bottom ng-if="canShowResults">
+        <md-tab id="user-info">
+            <md-tab-label><a ng-link="['Profiles', 'Profile', {id: github.login}]">Info</a></md-tab-label>
+            <md-tab-body>User info</md-tab-body>
+        </md-tab>
+        <md-tab id="user-following">
+            <md-tab-label><a ng-link="['Subscriptions', 'SubList', {who: github.login}]">Following</a></md-tab-label>
+            <md-tab-body>User's Following</md-tab-body>
+        </md-tab>
+        <md-tab id="user-repository">
+            <md-tab-label>
+                <a ng-link="['Repositories', 'Repository', {who: github.login, id: github.repository}]">Repositories</a>
+            </md-tab-label>
+            <md-tab-body>Repositorнy's branches and coommits</md-tab-body>
+        </md-tab>
+    </md-tabs>
+    <ng-outlet layout="row"></ng-outlet>
 </section>
