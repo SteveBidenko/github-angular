@@ -31,8 +31,12 @@ app {
   }
 }
 
-md-icon[aria-label='Favorite'] {
+md-icon[aria-label='Favorite'],
+md-icon-button[aria-label='Search'] {
   cursor: pointer;
+}
+
+md-icon[aria-label='Favorite'] {
   &.favorite {
     color: red;
   }
@@ -115,4 +119,8 @@ md-list-item.contact-repo {
 
 .md-48 {
   @include md-icon(48px);
+}
+
+md-input-container .md-errors-spacer, md-input-container.searchContainer {
+  min-height: 0;
 }
