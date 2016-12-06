@@ -13,7 +13,7 @@
         .run(run)
         .component('app', {
             templateUrl: '/app/views/app.html',
-            controller: 'SearchController',
+            controller: 'MainController',
             $routeConfig: [
                 {path: '/following/...', name: 'Subscriptions', component: 'subscriptions'},
                 {path: '/profile/...', name: 'Profiles', component: 'profiles'},
