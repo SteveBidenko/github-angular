@@ -8,50 +8,53 @@
 
     angular
         .module('Controllers', ['Github', 'ngMaterial', 'ngMessages'])
-        .controller('SearchController', SearchController)
+        .controller('MainController', MainController)
         .controller('GithubController', GithubController)
         .controller('ProfileController', ProfileController)
+        .controller('UserInfoController', UserInfoController)
         .controller('RepositoryController', RepositoryController);
 
-    SearchController.$inject = ['$scope', '$request', '$location'];
+    MainController.$inject = ['$scope', '$mdSidenav', '$request', '$location', 'github'];
     /* @ngInject */
-    function SearchController($scope, $request, $location) {
+    function MainController($scope, $mdSidenav, $request, $location, github) {
         var $ctrl = this;
 
-        $ctrl.subscription = '';
-        $ctrl.isShowResults = false;
-        $ctrl.backButtonShow = false;
+        $scope.canShowResults = false;
         $scope.recent = $request.recent();
         $scope.favorites = $request.favorites();
+        $scope.github = github;
+        $scope.selectedIndex = 1;
 
-        $ctrl.newSearch = function (request) {
-            $ctrl.subscription = request;
-            $ctrl.backButtonShow = true;
-            $ctrl.isShowResults = true;
+        $scope.toggleSidenav = function(menuId) {
+            $mdSidenav(menuId).toggle();
+        };
+
+        $scope.newSearch = function (request) {
+            github.login = request;
+            $scope.canShowResults = true;
             $location.path('/profile/' + request);
         };
 
-        $ctrl.isFavorited = function (request) {
-            return request ? $request.isFavorite(request) : false;
-        };
+        console.log($scope, $ctrl);
+    }
 
-        $ctrl.switchFavorite = function (request) {
-            if (request) {
-                if ($request.isFavorite(request)) {
-                    $request.rmFavorite(request);
+    UserInfoController.$inject = ['$request'];
+    /* @ngInject */
+    function UserInfoController($request) {
+        var $ctrl = this;
+
+        $ctrl.isFavorited = $request.isFavorite;
+
+        $ctrl.switchFavorite = function (who) {
+            if (who) {
+                if ($request.isFavorite(who)) {
+                    $request.rmFavorite(who);
                 } else {
-                    $request.toFavorite(request);
+                    $request.toFavorite(who);
                 }
             }
-            console.log('toFavorite', request);
         };
-
-        $ctrl.back = function() {
-            console.log('back is pressed');
-            $location.path('/');
-        };
-
-        // console.log($scope, $ctrl);
+        // console.log($ctrl);
     }
 
     GithubController.$inject = ['$scope', 'github'];
@@ -60,7 +63,6 @@
         var mv = this;
         mv.info = [];
         mv.readyToShowResults = github.readyToShowResults;
-        $scope.backButtonShow = false;
         $scope.searchQuery = '';
 
         this.$routerOnActivate = function(next) {
@@ -90,7 +92,7 @@
             mv.login = next.params.id;
             mv.info = github.profile(next.params.id);
         };
-        // console.log($scope, this);
+        console.log($scope, mv);
     }
 
     RepositoryController.$inject = ['github', '$log'];
@@ -101,7 +103,6 @@
 
         this.$routerOnActivate = function(next) {
             mv.info = github.repository(next.params.owner, next.params.id);
-            mv.backButtonShow = github.isShowProfile;
             mv.owner = github.profile(next.params.owner);
             $log.log(next.params);
         };

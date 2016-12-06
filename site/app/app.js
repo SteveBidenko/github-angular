@@ -46,29 +46,36 @@
         })
         .component('subList', {
             templateUrl: '/app/views/subList.html',
-            bindings: { $router: '<' },
+            bindings: {
+                $router: '<'
+            },
             controller: 'GithubController'
         })
         .component('profile', {
             templateUrl: '/app/views/profile.html',
-            bindings: { $router: '<' },
+            bindings: {
+                $router: '<'
+            },
             controller: 'ProfileController'
         })
         .component('repository', {
             templateUrl: '/app/views/repository.html',
-            bindings: { $router: '<' },
+            bindings: {
+                $router: '<'
+            },
             controller: 'RepositoryController'
         })
         .component('leftList', {
             templateUrl: '/app/views/leftList.html',
             bindings: {type: '<'},
-            controller: function ($scope, $element, $attrs) {
+            controller: ['$attrs', function ($attrs) {
                 this.name = $attrs.name;
                 this.class = $attrs.type;
-            }
+            }]
         })
         .component('userInfo', {
             templateUrl: '/app/views/userInfo.html',
+            controller: 'UserInfoController',
             bindings: {profile: '<'}
         })
         .component('userActivity', {
