@@ -30,9 +30,11 @@
         };
 
         $scope.newSearch = function (request) {
-            github.login = request;
-            $scope.canShowResults = true;
-            $location.path('/profile/' + request);
+            if (request) {
+                github.login = request;
+                $scope.canShowResults = true;
+                $location.path('/profile/' + request);
+            }
         };
 
         console.log($scope, $ctrl);
