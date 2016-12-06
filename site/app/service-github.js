@@ -207,7 +207,7 @@
          * @return {boolean}
          */
         function isFavorite(request) {
-            return favorites.indexOf(request) >= 0;
+            return request && favorites.indexOf(request) >= 0;
         }
         /**
          * Analyze and update the recent array
@@ -249,6 +249,7 @@
 
         function search(request, callback) {
             self.users = [];
+            self.login = request;
             $request.following(request, function (data) {
                 self.users = data;
                 self.readyToShowResults = data.length == 0 ? true : self.readyToShowResults;
