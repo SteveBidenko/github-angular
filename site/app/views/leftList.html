@@ -1,5 +1,5 @@
 <md-content ng-class="$ctrl.class">
-    <md-subheader ng-bind="$ctrl.name"></md-subheader>
+    <md-subheader><span ng-bind="$ctrl.name"></span></md-subheader>
     <md-list>
         <md-list-item ng-repeat="user in $ctrl.type" aria-label="{{ ::user }}">
             <!--<a ng-link="['Subscriptions', 'SubList', {who: user}]"><strong ng-bind="user"></strong></a>-->
