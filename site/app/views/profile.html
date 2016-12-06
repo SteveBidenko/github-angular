@@ -1,16 +1,13 @@
 <user-info profile="$ctrl.info.detailProfile"></user-info>
 <!--class="md-padding" -->
 <md-subheader class="md-no-sticky">Repositories</md-subheader>
-<md-content layout="column" flex>
-    <md-list>
-        <md-list-item class="md-1-line contact-item contact-repo" ng-repeat="repo in $ctrl.info.repositories"
-                      ng-if="$ctrl.info.repositories.length" layout="row" layout-wrap>
-            <div class="md-list-item-text compact" flex>
-                <a ng-href="/repository/{{ ::$ctrl.login }}/{{ ::repo.name }}" ng-bind="repo.name"></a>
-            </div>
-        </md-list-item>
-        <md-list-item ng-if="!$ctrl.info.repositories.length">
-            <i>No results found...</i>
-        </md-list-item>
-    </md-list>
+<md-content layout="row" layout-wrap layout-fill style="padding-bottom: 32px;" ng-cloak>
+    <md-whiteframe
+            class="md-whiteframe-3dp" layout-align="center center" layout layout-margin
+            ng-repeat="repo in $ctrl.info.repositories" flex-sm="30" flex-gt-sm="20" flex-gt-md="20">
+        <a ng-href="/repository/{{ ::$ctrl.login }}/{{ ::repo.name }}" ng-bind="repo.name"></a>
+    </md-whiteframe>
+    <div ng-if="!$ctrl.info.repositories.length">
+        <i>No results found...</i>
+    </div>
 </md-content>
