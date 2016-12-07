@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 
+if [ -d .idea ]; then
+    export PRODUCTION=true
+fi
+
 npm install
 bower install
-webpack site/app/*.js site/app/bundle.js
+webpack
 npm start
