@@ -1,7 +1,7 @@
 /**
  * Get github resources
  *
- * @namespace factories
+ * @namespace Resources
  */
 (function () {
     'use strict';

@@ -1,7 +1,7 @@
 /**
  * Primary module
  *
- * @namespace main
+ * @namespace Application
  */
 (function () {
     'use strict';
@@ -12,7 +12,7 @@
         .config(config)
         .run(run)
         .component('app', {
-            templateUrl: '/app/views/app.html',
+            templateUrl: '/views/app.html',
             controller: 'MainController',
             $routeConfig: [
                 {path: '/following/...', name: 'Subscriptions', component: 'subscriptions'},
@@ -45,28 +45,28 @@
             template: '<md-subheader>Empty params!</md-subheader>'
         })
         .component('subList', {
-            templateUrl: '/app/views/subList.html',
+            templateUrl: '/views/subList.html',
             bindings: {
                 $router: '<'
             },
             controller: 'GithubController'
         })
         .component('profile', {
-            templateUrl: '/app/views/profile.html',
+            templateUrl: '/views/profile.html',
             bindings: {
                 $router: '<'
             },
             controller: 'ProfileController'
         })
         .component('repository', {
-            templateUrl: '/app/views/repository.html',
+            templateUrl: '/views/repository.html',
             bindings: {
                 $router: '<'
             },
             controller: 'RepositoryController'
         })
         .component('leftList', {
-            templateUrl: '/app/views/leftList.html',
+            templateUrl: '/views/leftList.html',
             bindings: {type: '<'},
             controller: ['$attrs', function ($attrs) {
                 this.name = $attrs.name;
@@ -74,7 +74,7 @@
             }]
         })
         .component('userInfo', {
-            templateUrl: '/app/views/userInfo.html',
+            templateUrl: '/views/userInfo.html',
             controller: 'UserInfoController',
             bindings: {profile: '<'}
         })

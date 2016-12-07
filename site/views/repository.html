@@ -1,0 +1,20 @@
+<user-info profile="$ctrl.info.detailProfile"></user-info>
+<md-subheader class="md-no-sticky"><span ng-bind="$ctrl.title()"></span></md-subheader>
+<md-content layout="row" flex>
+    <md-content layout="column" flex="25">
+        <md-subheader>Branches</md-subheader>
+        <md-divider></md-divider>
+        <md-list ng-show="$ctrl.info.isShowBranches">
+            <md-list-item ng-repeat="branch in $ctrl.info.branches" ng-bind="branch.name"></md-list-item>
+        </md-list>
+    </md-content>
+    <md-content layout="column" flex ng-show="$ctrl.info.isShowCommits">
+        <md-subheader>Commits</md-subheader>
+        <md-divider></md-divider>
+        <md-list>
+            <md-list-item ng-repeat="commit in $ctrl.info.commits" layout="row">
+                {{ $ctrl.info.commits.length - $index }})&nbsp;<span ng-bind="commit.commit.message"></span>
+            </md-list-item>
+        </md-list>
+    </md-content>
+</md-content>

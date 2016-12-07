@@ -28,7 +28,11 @@
         $scope.toggleSidenav = function(menuId) {
             $mdSidenav(menuId).toggle();
         };
-
+        /**
+         * Launch new search
+         *
+         * @param {String} request
+         */
         $scope.newSearch = function (request) {
             if (request) {
                 github.login = request;
@@ -89,29 +93,30 @@
     /* @ngInject */
     function ProfileController($scope, github) {
         var mv = this;
+        mv.info = [];
 
         this.$routerOnActivate = function(next) {
             mv.login = next.params.id;
             mv.info = github.profile(next.params.id);
         };
-        console.log($scope, mv);
+        // console.log($scope, mv);
     }
 
-    RepositoryController.$inject = ['github', '$log'];
+    RepositoryController.$inject = ['$scope', 'github', '$log'];
     /* @ngInject */
-    function RepositoryController(github, $log) {
+    function RepositoryController($scope, github, $log) {
         var mv = this;
         mv.info = [];
 
         this.$routerOnActivate = function(next) {
-            mv.info = github.repository(next.params.owner, next.params.id);
-            mv.owner = github.profile(next.params.owner);
-            $log.log(next.params);
+            mv.info = github.profile(next.params.owner).repository(next.params.owner, next.params.id);
+            // $log.log(next.params);
         };
 
         mv.title = function() {
-            var owner = mv.owner.detailProfile.login ? mv.owner.detailProfile.login : mv.info.owner;
+            var owner = mv.info.detailProfile.login ? mv.info.detailProfile.login : mv.info.login;
             return owner + ' / ' + mv.info.detailRepository.name;
         };
+        // console.log($scope, mv);
     }
 })();

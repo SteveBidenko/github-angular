@@ -1,7 +1,12 @@
 <md-subheader>Details</md-subheader>
 <md-content layout="row" layout-align="start center" layout-padding>
-    <div>
-        <img class="md-avatar" ng-src="{{ ::$ctrl.profile.avatar_url }}" alt="Full avatar" width="100" />
+    <div class="avatar-and-favorite">
+        <md-icon md-font-set="material-icons" aria-label="Following"
+                 ng-class="{favorite: $ctrl.isFavorited($ctrl.profile.login)}"
+                 ng-click="$ctrl.switchFavorite($ctrl.profile.login)">
+            account_circle
+        </md-icon>
+        <img class="md-avatar" ng-src="{{ ::$ctrl.profile.avatar_url }}" alt="Full avatar" width="120" />
     </div>
     <div flex layout="column" layout-align="center start">
         <div layout="column" layout-align="center start">
@@ -10,13 +15,6 @@
             <span ng-if="$ctrl.profile.email">
                 Mail: <a href="mailto:{{ ::$ctrl.profile.email }}" ng-bind="$ctrl.profile.email"></a>
             </span>
-        </div>
-        <div layout="row" layout-align="start center">
-            <md-icon md-font-set="material-icons" aria-label="Favorite"
-                     ng-class="{favorite: $ctrl.isFavorited($ctrl.profile.login)}"
-                     ng-click="$ctrl.switchFavorite($ctrl.profile.login)">
-                favorite
-            </md-icon>
         </div>
     </div>
     <user-activity login="$ctrl.profile.login" hide show-gt-sm></user-activity>

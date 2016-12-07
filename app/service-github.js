@@ -290,6 +290,7 @@
         }
 
         function repository(user, name) {
+            self.login = user;
             self.owner = user;
             self.repositoryName = name;
             $request.repository(user, name, function (data) {
