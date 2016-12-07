@@ -31,14 +31,25 @@ app {
   }
 }
 
-md-icon[aria-label='Favorite'],
+md-icon[aria-label='Following'],
 md-icon-button[aria-label='Search'] {
   cursor: pointer;
 }
 
-md-icon[aria-label='Favorite'] {
+md-icon[aria-label='Following'] {
   &.favorite {
     color: red;
+  }
+}
+
+div.avatar-and-favorite {
+  position: relative;
+  padding: 0;
+
+  & > md-icon[aria-label='Following'] {
+    position: absolute;
+    top: 0;
+    right: 0;
   }
 }
 
