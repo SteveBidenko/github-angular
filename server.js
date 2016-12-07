@@ -25,7 +25,8 @@ var http    = require('http'),         // http server core module
 });
 
 // Setup and configure Express http server. Expect a subfolder called 'site' to be the web root.
-httpApp.use(express.static(__dirname + '/site/'));
+httpApp.set('views', __dirname + '/pug/')
+httpApp.set('view engine', 'pug');
 // to support JSON-encoded bodies
 httpApp.use(bodyParser.json());
 // to support URL-encoded bodies
@@ -33,9 +34,13 @@ httpApp.use(bodyParser.urlencoded({
     extended: true
 }));
 
-httpApp.get(['/following*', '/following/*', '/profile*', '/profile/*', '/repo*', 'repo/*'], function(req, res) {
+const indexes = ['/', '/index.html', '/following*', '/following/*', '/profile*', '/profile/*', '/repo*', 'repo/*'];
+httpApp.get(indexes, function(req, res) {
     console.log(req.url);
-    res.sendFile(__dirname + '/site/index.html');
+    // res.sendFile(__dirname + '/site/index.html');
+    res.render('index', {
+        production: false
+    });
 });
 
 httpApp.post('/activity', function(req, res) {
@@ -61,6 +66,8 @@ httpApp.post('/activity', function(req, res) {
         }
     });
 });
+
+httpApp.use(express.static(__dirname + '/site/'));
 
 // Start Express http server on the port
 console.info('Starting http server on the port ' + port);
