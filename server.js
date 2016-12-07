@@ -1,11 +1,12 @@
 // Load required modules
-var http    = require('http'),         // http server core module
+var http    = require('http'),
     request = require('request'),
     port    = process.env.PORT || 8080,
     colors = require("cli-color"),
-    express = require('express'),       // web framework external module
+    express = require('express'),
     fs = require('fs'),
     httpApp = express(),
+    sass = require('node-sass-middleware'),
     bodyParser = require('body-parser'),
     mapping = {
         log: colors.yellow,
@@ -34,6 +35,19 @@ httpApp.use(bodyParser.urlencoded({
     extended: true
 }));
 
+// Adding the sass middleware
+httpApp.use(
+    sass({
+        src: __dirname + '/sass',
+        dest: __dirname + '/site/css',
+        prefix: '/css',
+        response: true,
+        outputStyle: 'compressed',
+        debug: false
+    })
+);
+
+// Adding rewrite rules to get index.html
 const indexes = ['/', '/index.html', '/following*', '/following/*', '/profile*', '/profile/*', '/repo*', 'repo/*'];
 httpApp.get(indexes, function(req, res) {
     console.log(req.url);
