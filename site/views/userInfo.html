@@ -6,14 +6,14 @@
                  ng-click="$ctrl.switchFavorite($ctrl.profile.login)">
             account_circle
         </md-icon>
-        <img class="md-avatar" ng-src="{{ ::$ctrl.profile.avatar_url }}" alt="Full avatar" width="120" />
+        <img class="md-avatar" ng-src="{{ $ctrl.profile.avatar_url }}" alt="Full avatar" width="120" />
     </div>
     <div flex layout="column" layout-align="center start">
         <div layout="column" layout-align="center start">
             <span>Login: <b ng-bind="$ctrl.profile.login"></b></span>
-            <span>Name: <b>{{ ::$ctrl.profile.name ? $ctrl.profile.name : '-' }}</b></span>
+            <span>Name: <b>{{ $ctrl.profile.name ? $ctrl.profile.name : '-' }}</b></span>
             <span ng-if="$ctrl.profile.email">
-                Mail: <a href="mailto:{{ ::$ctrl.profile.email }}" ng-bind="$ctrl.profile.email"></a>
+                Mail: <a href="mailto:{{ $ctrl.profile.email }}" ng-bind="$ctrl.profile.email"></a>
             </span>
         </div>
     </div>
