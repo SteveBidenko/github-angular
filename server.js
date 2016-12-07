@@ -1,8 +1,9 @@
 // Load required modules
 var http    = require('http'),
+    production = JSON.parse(process.env.PRODUCTION || false),
     request = require('request'),
     port    = process.env.PORT || 8080,
-    colors = require("cli-color"),
+    colors = require('cli-color'),
     express = require('express'),
     fs = require('fs'),
     httpApp = express(),
@@ -26,7 +27,7 @@ var http    = require('http'),
 });
 
 // Setup and configure Express http server. Expect a subfolder called 'site' to be the web root.
-httpApp.set('views', __dirname + '/pug/')
+httpApp.set('views', __dirname + '/pug/');
 httpApp.set('view engine', 'pug');
 // to support JSON-encoded bodies
 httpApp.use(bodyParser.json());
@@ -42,7 +43,7 @@ httpApp.use(
         dest: __dirname + '/site/css',
         prefix: '/css',
         response: true,
-        outputStyle: 'compressed',
+        outputStyle: production ? 'compressed' : 'expanded',
         debug: false
     })
 );
@@ -51,9 +52,8 @@ httpApp.use(
 const indexes = ['/', '/index.html', '/following*', '/following/*', '/profile*', '/profile/*', '/repo*', 'repo/*'];
 httpApp.get(indexes, function(req, res) {
     console.log(req.url);
-    // res.sendFile(__dirname + '/site/index.html');
     res.render('index', {
-        production: false
+        production: production
     });
 });
 

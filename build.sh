@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-if [ -d .idea ]; then
+if [ ! -d .idea ]; then
     export PRODUCTION=true
 fi
 
