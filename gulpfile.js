@@ -15,7 +15,9 @@ gulp.task('default', function() {
 gulp.task('clean', function() {
     gulp.src(['./site/+(lib|css)/*.+(js|css)']).pipe(clean());
 });
-
+/**
+ * It's only to demonstration. There is the sass on-fly compiling on the project now.
+ */
 gulp.task('sass', function() {
     gulp.src('./sass/*.scss').pipe(sass({
         errLogToConsole: true
