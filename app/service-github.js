@@ -36,6 +36,7 @@
                     recent: function() {
                         return recent;
                     },
+                    recentUpdate: recentUpdate,
                     /**
                      * Get the favorites array
                      *
@@ -215,10 +216,12 @@
          * @param {String} request
          */
         function recentUpdate(request) {
-            if (recent.indexOf(request) < 0) {
-                recent.push(request);
-                localStorage.setItem('recent', JSON.stringify(recent));
+            var idx = recent.indexOf(request);
+            if (idx >= 0) {
+                recent.splice(idx, 1);
             }
+            recent.unshift(request);
+            localStorage.setItem('recent', JSON.stringify(recent));
         }
     }
 
@@ -226,38 +229,44 @@
     /* @ngInject */
     function github($request) {
         var self = this;
-        self.users = [];
+        cleanData();
         self.login = null;
-        self.detailProfile = {};
-        self.detailSearch = {};
-        self.detailRepository = {};
-        self.repositories = [];
-        self.owner = null;
-        self.repositoryName = '';
         self.isShowRepository = false;
-        self.branches = [];
         self.isShowBranches = false;
-        self.commits = [];
         self.isShowCommits = false;
         self.isShowProfile = false;
-        self.readyToShowResults = false;
+        self.mode = 'profile';
         self.search = search;
         self.profile = profile;
         self.repository = repository;
         self.activity = activity;
         return self;
+        /**
+         * Initialize or clean all data
+         */
+        function cleanData() {
+            self.detailProfile = {};
+            self.repositories = [];
+            self.users = [];
+            self.repositoryName = '';
+            self.detailRepository = {};
+            self.branches = [];
+            self.commits = [];
+            self.readyToShowResults = false;
+        }
 
         function search(request, callback) {
-            self.users = [];
+            checkPreviousState(request);
             self.login = request;
             $request.following(request, function (data) {
                 self.users = data;
+                // Wait for end of loading
                 self.readyToShowResults = data.length == 0 ? true : self.readyToShowResults;
                 // console.log(data);
                 data.forEach(function (currentUser, idx) {
                     $request.userInfo(currentUser.login, function (info) {
                         self.users[idx].details = info;
-                        self.detailSearch[info.login] = info;
+                        // Wait for end of loading
                         self.readyToShowResults = idx == self.users.length - 1 ? true : self.readyToShowResults;
                     });
                 });
@@ -275,9 +284,12 @@
          * @returns {github}
          */
         function profile(loginName, callback) {
+            checkPreviousState(loginName);
             self.login = loginName;
             $request.userInfo(loginName, function (data) {
+                $request.recentUpdate(loginName);
                 self.detailProfile = data;
+                self.readyToShowResults = Object.keys(data).length > 0 ? true : self.readyToShowResults;
                 $request.repositories(loginName, function (data) {
                     self.repositories = data;
                     self.isShowProfile = true;
@@ -288,10 +300,17 @@
             });
             return self;
         }
-
+        /**
+         * Get full information for the repository
+         *
+         * @param {String} user
+         * @param {String} name
+         * @return {github}
+         */
         function repository(user, name) {
+            checkPreviousState(user);
+            $request.recentUpdate(user);
             self.login = user;
-            self.owner = user;
             self.repositoryName = name;
             $request.repository(user, name, function (data) {
                 self.detailRepository = data;
@@ -322,5 +341,12 @@
                 }
             })
         }
+
+        function checkPreviousState(login) {
+            if (self.login != login) {
+                cleanData();
+            }
+        }
+
     }
 })();
