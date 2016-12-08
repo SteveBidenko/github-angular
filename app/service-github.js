@@ -258,6 +258,11 @@
         function search(request, callback) {
             checkPreviousState(request);
             self.login = request;
+            // Check if the object detailProfile is empty
+            if (Object.keys(self.detailProfile).length == 0) {
+                profile(request);
+            }
+            // Do primary request
             $request.following(request, function (data) {
                 self.users = data;
                 // Wait for end of loading
