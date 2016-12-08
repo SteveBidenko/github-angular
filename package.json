@@ -23,7 +23,7 @@
     "gulp-watch": "^4.3.5"
   },
   "scripts": {
-    "prestart": "gulp",
+    "prestart": "gulp bower-files",
     "start": "node server.js",
     "test": "echo 'Error: no test specified' && exit 1"
   },
@@ -51,5 +51,5 @@
   "company": "Jobless LTd.",
   "customer": "Noone Inc.",
   "license": "MIT",
-  "homepage": ""
+  "homepage": "https://github.com/SteveBidenko"
 }
