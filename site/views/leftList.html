@@ -3,7 +3,7 @@
     <md-list>
         <md-list-item ng-repeat="user in $ctrl.type" aria-label="{{ ::user }}">
             <!--<a ng-link="['Subscriptions', 'SubList', {who: user}]"><strong ng-bind="user"></strong></a>-->
-            <a ng-link="['Profiles', 'Profile', {id: user}]"><strong ng-bind="user"></strong></a>
+            <a ng-link="['Profiles', 'Profile', {who: user}]"><strong ng-bind="user"></strong></a>
         </md-list-item>
     </md-list>
 </md-content>

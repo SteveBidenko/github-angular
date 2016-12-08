@@ -9,25 +9,34 @@
     angular
         .module('Controllers', ['Github', 'ngMaterial', 'ngMessages'])
         .controller('MainController', MainController)
-        .controller('GithubController', GithubController)
         .controller('ProfileController', ProfileController)
-        .controller('UserInfoController', UserInfoController)
-        .controller('RepositoryController', RepositoryController);
+        .controller('FollowingController', FollowingController)
+        .controller('RepositoryController', RepositoryController)
+        .controller('UserInfoController', UserInfoController);
 
     MainController.$inject = ['$scope', '$mdSidenav', '$request', '$location', 'github'];
     /* @ngInject */
     function MainController($scope, $mdSidenav, $request, $location, github) {
         var $ctrl = this;
 
-        $scope.canShowResults = false;
+        $ctrl.selectedTab = function() {
+            var idx = 0;
+            switch (github.mode) {
+                case 'profile': idx = 0; break;
+                case 'following': idx = 1; break;
+                case 'repository': idx = 2; break;
+                default: idx = 0; break;
+            }
+            return idx;
+        };
+
         $scope.recent = $request.recent();
         $scope.favorites = $request.favorites();
         $scope.github = github;
-        $scope.selectedIndex = 1;
-
         $scope.toggleSidenav = function(menuId) {
             $mdSidenav(menuId).toggle();
         };
+
         /**
          * Launch new search
          *
@@ -36,12 +45,11 @@
         $scope.newSearch = function (request) {
             if (request) {
                 github.login = request;
-                $scope.canShowResults = true;
                 $location.path('/profile/' + request);
             }
         };
 
-        console.log($scope, $ctrl);
+        // console.log($scope, $ctrl);
     }
 
     UserInfoController.$inject = ['$request'];
@@ -63,41 +71,44 @@
         // console.log($ctrl);
     }
 
-    GithubController.$inject = ['$scope', 'github'];
+    FollowingController.$inject = ['$scope', 'github', '$log'];
     /* @ngInject */
-    function GithubController($scope, github) {
+    function FollowingController($scope, github, $log) {
         var mv = this;
-        mv.info = [];
-        mv.readyToShowResults = github.readyToShowResults;
         $scope.searchQuery = '';
+        $scope.github = github;
+        github.mode = 'following';
 
         this.$routerOnActivate = function(next) {
             if (next.params.who) {
-                // console.log('GithubController $routerOnActivate', next);
+                // console.log('FollowingController $routerOnActivate', next);
                 $scope.searchQuery = next.params.who;
-                mv.info = github.search(next.params.who, function() {
+                github.search(next.params.who, function() {
                     mv.readyToShowResults = github.readyToShowResults;
                 });
             }
             // $scope.location = $location;
+            $log.log('FollowingController.$routerOnActivate', mv);
         };
 
         this.showNoResults = function() {
             // console.log(github.readyToShowResults, mv.info.users);
-            return !(mv.readyToShowResults && mv.info.users && mv.info.users.length > 0);
+            return !(github.readyToShowResults && github.users && github.users.length > 0);
         };
         // console.log($scope, mv);
     }
 
-    ProfileController.$inject = ['$scope', 'github'];
+    ProfileController.$inject = ['$scope', 'github', '$log'];
     /* @ngInject */
-    function ProfileController($scope, github) {
+    function ProfileController($scope, github, $log) {
         var mv = this;
         mv.info = [];
+        github.mode = 'profile';
 
         this.$routerOnActivate = function(next) {
-            mv.login = next.params.id;
-            mv.info = github.profile(next.params.id);
+            mv.login = next.params.who;
+            mv.info = github.profile(next.params.who);
+            $log.log('ProfileController.$routerOnActivate', mv);
         };
         // console.log($scope, mv);
     }
@@ -107,16 +118,18 @@
     function RepositoryController($scope, github, $log) {
         var mv = this;
         mv.info = [];
+        $scope.github = github;
+        github.mode = 'repository';
 
         this.$routerOnActivate = function(next) {
-            mv.info = github.profile(next.params.owner).repository(next.params.owner, next.params.id);
-            // $log.log(next.params);
+            mv.info = github.profile(next.params.who).repository(next.params.who, next.params.id);
+            $log.log('RepositoryController.$routerOnActivate', mv);
         };
 
         mv.title = function() {
             var owner = mv.info.detailProfile.login ? mv.info.detailProfile.login : mv.info.login;
             return owner + ' / ' + mv.info.detailRepository.name;
         };
-        // console.log($scope, mv);
+        // $log.log($scope, mv);
     }
 })();

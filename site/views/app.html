@@ -20,23 +20,31 @@
             <md-button aria-label="Search" ng-click="newSearch(searchQuery)" layout="start center">
                 <md-icon md-font-set="material-icons" aria-label="Search">search</md-icon>
             </md-button>
-            <!--<md-button class="md-raised" ng-if="$ctrl.backButtonShow" ng-click="$ctrl.back()">Back</md-button>-->
         </div>
     </md-toolbar>
-    <md-tabs md-selected="selectedIndex" md-dynamic-height md-border-bottom ng-if="canShowResults">
+    <user-info profile="github.detailProfile" ng-if="github.readyToShowResults"></user-info>
+    <md-tabs md-selected="$ctrl.selectedTab()" md-dynamic-height md-border-bottom ng-if="github.readyToShowResults">
         <md-tab id="user-info">
-            <md-tab-label><a ng-link="['Profiles', 'Profile', {id: github.login}]">Info</a></md-tab-label>
-            <md-tab-body>User info</md-tab-body>
+            <md-tab-label><a ng-link="['Profiles', 'Profile', {who: github.login}]">Repositories</a></md-tab-label>
+            <md-tab-body>
+                <md-subheader class="md-no-sticky">Repositories</md-subheader>
+            </md-tab-body>
         </md-tab>
         <md-tab id="user-following">
             <md-tab-label><a ng-link="['Subscriptions', 'SubList', {who: github.login}]">Following</a></md-tab-label>
-            <md-tab-body>User's Following</md-tab-body>
+            <md-tab-body>
+                <md-subheader>Following list</md-subheader>
+            </md-tab-body>
         </md-tab>
-        <md-tab id="user-repository">
+        <md-tab id="user-repository" ng-if="github.repositoryName">
             <md-tab-label>
-                <a ng-link="['Repositories', 'Repository', {who: github.login, id: github.repository}]">Repositories</a>
+                <a ng-link="['Repositories', 'Repository', {who: github.login, id: github.repositoryName}]">
+                    {{ github.repositoryName }}
+                </a>
             </md-tab-label>
-            <md-tab-body>Repositorнy's branches and coommits</md-tab-body>
+            <md-tab-body>
+                <md-subheader>{{ github.repositoryName }}</md-subheader>
+            </md-tab-body>
         </md-tab>
     </md-tabs>
     <ng-outlet layout="row"></ng-outlet>

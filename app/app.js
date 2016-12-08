@@ -31,14 +31,14 @@
             template: '<ng-outlet></ng-outlet>',
             $routeConfig: [
                 {path: '/', name: 'EmptyParam', component: 'emptyParam', useAsDefault: true},
-                {path: '/:id', name: 'Profile', component: 'profile'}
+                {path: '/:who', name: 'Profile', component: 'profile'}
             ]
         })
         .component('repositories', {
             template: '<ng-outlet></ng-outlet>',
             $routeConfig: [
                 {path: '/', name: 'EmptyParam', component: 'emptyParam', useAsDefault: true},
-                {path: '/:owner/:id', name: 'Repository', component: 'repository'}
+                {path: '/:who/:id', name: 'Repository', component: 'repository'}
             ]
         })
         .component('emptyParam', {
@@ -49,7 +49,7 @@
             bindings: {
                 $router: '<'
             },
-            controller: 'GithubController'
+            controller: 'FollowingController'
         })
         .component('profile', {
             templateUrl: '/views/profile.html',
