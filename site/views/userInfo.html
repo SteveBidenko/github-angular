@@ -1,5 +1,5 @@
 <md-subheader>Details</md-subheader>
-<md-content layout="row" layout-align="start center" layout-padding>
+<md-content layout="row" layout-align="start center" layout-padding layout-nowrap>
     <div class="avatar-and-favorite">
         <md-icon md-font-set="material-icons" aria-label="Following"
                  ng-class="{favorite: $ctrl.isFavorited($ctrl.profile.login)}"
@@ -8,7 +8,7 @@
         </md-icon>
         <img class="md-avatar" ng-src="{{ $ctrl.profile.avatar_url }}" alt="Full avatar" width="120" />
     </div>
-    <div flex layout="column" layout-align="center start">
+    <div layout="column" layout-align="center start">
         <div layout="column" layout-align="center start">
             <span>Login: <b ng-bind="$ctrl.profile.login"></b></span>
             <span>Name: <b>{{ $ctrl.profile.name ? $ctrl.profile.name : '-' }}</b></span>
