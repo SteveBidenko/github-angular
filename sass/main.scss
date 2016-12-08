@@ -40,6 +40,9 @@ md-icon[aria-label='Following'] {
   &.favorite {
     color: red;
   }
+  &:focus {
+    outline: none;
+  }
 }
 
 div.avatar-and-favorite {
